@@ -23,6 +23,10 @@ server.use('/teams', teamRouter)
 server.use('/partners', partnerRouter)
 server.use('/admin', adminRouter)
 
+server.get('*', (req, res) => {
+    res.sendFile(`${__dirname}/client/build/index.html`)
+})
+
 
 // M I D D L E W A R E   H E R E
 const PORT = process.env.PORT || 5000
