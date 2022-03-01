@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 
 server.use(cors())
 server.use(express.json())
-server.use(express.static('./client/build'))
+server.use(express.static(path.join(__dirname, './client/build')))
 
 
 // R O U T E S   H E R E 
