@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "serverDev": "nodemon --require dotenv/config index.js --ignore client",
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
