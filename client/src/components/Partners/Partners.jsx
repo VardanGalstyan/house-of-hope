@@ -22,7 +22,7 @@ function Partners() {
     const getPartners = async () => {
         try {
             setLoading(true);
-            const response = await fetch('partners');
+            const response = await fetch('https://house-of-hope.herokuapp.com/partners');
             if (response.ok) {
                 const data = await response.json();
                 setPartners(data)

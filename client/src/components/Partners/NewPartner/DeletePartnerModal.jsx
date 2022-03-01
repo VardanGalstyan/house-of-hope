@@ -14,7 +14,7 @@ function DeletePartnerModal(props) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`partners/${partner._id}`, {
+            const response = await fetch(`https://house-of-hope.herokuapp.com/partners/${partner._id}`, {
                 method: 'DELETE',
             })
             if (response.ok) {

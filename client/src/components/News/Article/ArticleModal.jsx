@@ -10,7 +10,7 @@ function ArticleModal(props) {
     const fetchNews = useContext(NewsContext);
     const fetchArticle = useContext(ArticleContext);
     const { edited } = props;
-    const endpoint = edited ? `http://localhost:3005/articles/${edited._id}` : 'articles';
+    const endpoint = edited ? `https://house-of-hope.herokuapp.com/${edited._id}` : 'https://house-of-hope.herokuapp.com/articles';
     const method = edited ? 'PUT' : 'POST';
 
     const initialState = {
@@ -54,7 +54,7 @@ function ArticleModal(props) {
                 const data = await response.json();
                 const formData = new FormData();
                 [...files[0]].forEach(file => formData.append('pictures', file));
-                const res = await fetch(`http://localhost:3005/articles/${data._id}/pictures`, {
+                const res = await fetch(`https://house-of-hope.herokuapp.com/articles/${data._id}/pictures`, {
                     method: 'POST',
                     body: formData
                 })

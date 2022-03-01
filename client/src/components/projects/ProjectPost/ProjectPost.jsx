@@ -28,7 +28,7 @@ function ProjectPost() {
     const fetchProject = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3005/projects/${id}`)
+            const response = await fetch(`https://house-of-hope.herokuapp.com/projects/${id}`)
             if (response.ok) {
                 const data = await response.json();
                 setProject(data);

@@ -29,7 +29,7 @@ function Article() {
     const fetchArticle = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3005/articles/${id}`)
+            const response = await fetch(`https://house-of-hope.herokuapp.com/articles/${id}`)
             if (response.ok) {
                 const data = await response.json();
                 setArticle(data);

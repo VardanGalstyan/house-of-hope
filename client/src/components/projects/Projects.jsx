@@ -31,7 +31,7 @@ function Projects() {
     const fetchProjects = async () => {
         try {
             setLoading(true)
-            const response = await fetch('projects')
+            const response = await fetch('https://house-of-hope.herokuapp.com/projects')
             if (response.ok) {
                 const projectsData = await response.json();
                 setProjects(projectsData);

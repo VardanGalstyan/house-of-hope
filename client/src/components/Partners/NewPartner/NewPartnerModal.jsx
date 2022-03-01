@@ -8,7 +8,7 @@ function NewPartnerModal(props) {
     const getPartners = useContext(getPartnerContext);
     const editPartner = props.partner;
     const method = editPartner ? 'PUT' : 'POST';
-    const endpoint = editPartner ? `partners/${editPartner._id}` : 'partners';
+    const endpoint = editPartner ? `https://house-of-hope.herokuapp.com/partners/${editPartner._id}` : 'https://house-of-hope.herokuapp.com/partners';
 
     const initialState = {
         name_am: editPartner ? editPartner.name_am : '',
@@ -42,7 +42,7 @@ function NewPartnerModal(props) {
                 const data = await res.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`partners/${data._id}/avatar`, {
+                const response = await fetch(`https://house-of-hope.herokuapp.com/partners/${data._id}/avatar`, {
                     body: formData,
                     method: 'POST',
                 })

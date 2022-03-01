@@ -14,7 +14,7 @@ function DeleteArticleModal(props) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3005/articles/${article._id}`, {
+            const response = await fetch(`https://house-of-hope.herokuapp.com/articles/${article._id}`, {
                 method: 'DELETE',
             })
             if (response.ok) {

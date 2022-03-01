@@ -21,7 +21,7 @@ function Team() {
     const getTeams = async () => {
         try {
             setLoading(true);
-            const response = await fetch('teams');
+            const response = await fetch('https://house-of-hope.herokuapp.com/teams');
             if (response.ok) {
                 const data = await response.json();
                 setTeam(data);

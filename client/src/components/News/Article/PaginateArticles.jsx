@@ -7,7 +7,7 @@ function PaginateArticles({ total, links, link }) {
 
     const selectedPage = (e, i) => {
         setSelected(e.target.innerText);
-        link(`/articles?limit=3&offset=${((i + 1) - 1) * 3}`)
+        link(`https://house-of-hope.herokuapp.com/articles?limit=3&offset=${((i + 1) - 1) * 3}`)
     }
 
     const selectedNavPage = (e) => {

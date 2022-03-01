@@ -14,7 +14,7 @@ function MemberDeleteModal(props) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`teams/${member._id}`, {
+            const response = await fetch(`https://house-of-hope.herokuapp.com/${member._id}`, {
                 method: 'DELETE',
             })
             if (response.ok) {

@@ -8,7 +8,7 @@ import Error from '../Reusable/Error';
 function NewProjects(props) {
 
     const { edited } = props;
-    const endpoint = edited ? `http://localhost:3005/projects/${edited._id}` : 'projects';
+    const endpoint = edited ? `https://house-of-hope.herokuapp.com/projects/${edited._id}` : 'https://house-of-hope.herokuapp.com/projects';
     const method = edited ? 'PUT' : 'POST';
 
     const initialState = {
@@ -58,7 +58,7 @@ function NewProjects(props) {
                 const data = await res.json();
                 const formData = new FormData()
                 formData.append('cover', image)
-                const response = await fetch(`projects/${data._id}/cover`, {
+                const response = await fetch(`https://house-of-hope.herokuapp.com/projects/${data._id}/cover`, {
                     body: formData,
                     method: 'POST',
                 })

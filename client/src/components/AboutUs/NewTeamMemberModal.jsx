@@ -9,7 +9,7 @@ function NewTeamMemberModal(props) {
     const getTeam = useContext(teamMemberContext);
     const { member } = props;
     const method = member ? 'PUT' : 'POST';
-    const endpoint = member ? `teams/${member._id}` : 'teams';
+    const endpoint = member ? `https://house-of-hope.herokuapp.com/${member._id}` : 'https://house-of-hope.herokuapp.com/';
 
     const initialState = {
         name_am: member ? member.name_am : '',
@@ -47,7 +47,7 @@ function NewTeamMemberModal(props) {
                 const data = await res.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`teams/${data._id}/avatar`, {
+                const response = await fetch(`https://house-of-hope.herokuapp.com/${data._id}/avatar`, {
                     body: formData,
                     method: 'POST',
                 })
