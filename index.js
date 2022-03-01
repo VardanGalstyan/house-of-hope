@@ -24,7 +24,7 @@ server.use('/partners', partnerRouter)
 server.use('/admin', adminRouter)
 
 server.get('*', (req, res) => {
-    res.sendFile(`${__dirname}/client/build/index.html`)
+    res.sendFile(`./client/build/index.html`)
 })
 
 
