@@ -8,6 +8,7 @@ import Partners from './components/Partners/Partners';
 import AboutUs from './components/AboutUs/AboutUs';
 import Footer from './components/Footer/Footer';
 import TopNavbar from './components/navbar/TopNavbar';
+import Admin from './components/Admin/Admin';
 
 export const languageContext = createContext('');
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/project/:id" element={<ProjectPost />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes >
         <Footer />
       </languageContext.Provider>

@@ -1,8 +1,7 @@
 import AdminModel from './schema.js'
-import createError from 'http-errors';
 
 
-const adminMiddleWare = async (req, res, next) => {
+const AdminMiddleWare = async (req, res, next) => {
     try {
         const encodedCredentials = req.headers.authorization.split(' ')[1];
         const decodedCredentials = Buffer.from(encodedCredentials, 'base64').toString('ascii');
@@ -12,11 +11,12 @@ const adminMiddleWare = async (req, res, next) => {
             req.admin = admin;
             next();
         } else {
-            next(createError(404, 'User not found'))
+            res.status(403).send({ message: 'The user is not Authorized!' })
+            next()
         }
     } catch (error) {
         next(error)
     }
 }
 
-export default adminMiddleWare;
+export default AdminMiddleWare;
