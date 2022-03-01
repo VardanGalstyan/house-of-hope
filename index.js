@@ -1,4 +1,6 @@
 import express from 'express'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import cors from 'cors'
 import listEndpoints from 'express-list-endpoints'
 import mongoose from 'mongoose'
@@ -9,6 +11,8 @@ import partnerRouter from './src/services/partners/index.js'
 import adminRouter from './src/services/admin/index.js'
 
 const server = express()
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 server.use(cors())
 server.use(express.json())
@@ -24,8 +28,9 @@ server.use('/partners', partnerRouter)
 server.use('/admin', adminRouter)
 
 server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-})
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'))
+}
+)
 
 
 // M I D D L E W A R E   H E R E
