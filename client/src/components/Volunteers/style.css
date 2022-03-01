@@ -1,0 +1,105 @@
+.volunteers {
+  position: relative;
+  background-image: url(https://www.hrsolutions-uk.com/wp-content/uploads/2020/04/Coronavirus-Emergency-Volunteering-Leave-EVL-HR-Solutions.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+}
+
+.volunteers::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(53, 52, 52, 0.774);
+  z-index: 1;
+}
+
+.volunteers-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 50px 0;
+  z-index: 2;
+  color: rgb(228, 225, 225);
+}
+
+.volunteers-main p {
+  text-align: center;
+  font-size: 11px;
+  margin-bottom: 30px;
+  font-family: var(--font-montserrat);
+  width: 100%;
+}
+
+.volunteers button {
+  background-color: #538494;
+  border: none;
+  padding: 5px 25px;
+  color: rgb(228, 225, 225);
+}
+
+/* M O D A L */
+.modal-content {
+  background-color: var(--bcg-secondary-dark);
+  color: white;
+  font-family: var(--font-braind);
+}
+
+.modal-header button {
+  color: white !important;
+}
+
+.modal-title {
+  font-size: 35px !important;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.modal-footer button {
+  background: none !important;
+  border: none !important;
+  font-size: 25px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.form-control:focus {
+  border-color: #bdc1c2;
+  box-shadow: none;
+}
+
+/* P H O N E   I N P U T  */
+
+.PhoneInputInput {
+  border-radius: 4px !important;
+  border: none !important;
+}
+
+.PhoneInputInput:focus {
+  outline: none !important;
+}
+
+.PhoneInput {
+  height: 39px;
+  border: solid 1px #c5c3c3;
+  padding: 0 10px;
+  border-radius: 4px;
+  background-color: white;
+  margin-bottom: 10px;
+}

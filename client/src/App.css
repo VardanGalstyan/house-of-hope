@@ -1,0 +1,76 @@
+@font-face {
+  font-family: "Braind";
+  src: url(/src/fonts/BraindGyumri.otf);
+}
+
+@font-face {
+  font-family: "MontserratArm";
+  src: url(/src/fonts/montserrat-armenian/Montserratarm-Regular.otf);
+}
+
+:root {
+  /* C O L O R S */
+  --bcg-primary: #edeceb;
+  --bcg-secondary: #b4d0d9;
+  --bcg-secondary-dark: #538494;
+  --text-main: #5a4b42;
+  --text-selected: #edcd81;
+
+  /* F O N T S */
+  --font-braind: "Braind";
+  --font-montserrat: "MontserratArm", "Montserrat", sans-serif;
+  --font-spectral: "Spectral SC", serif;
+}
+
+.App {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-braind);
+}
+
+.admin-options {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dropdown-menu {
+  right: 0 !important;
+  padding: 0;
+  font-size: 11px;
+  font-family: var(--font-montserrat);
+}
+
+.editable-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  padding: 20px;
+  color: var(--text-main);
+  font-family: var(--font-braind);
+}
+
+.editable-header h1 {
+  font-size: 5vw;
+  font-weight: 700;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.editable-header p {
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+  color: rgb(163, 163, 163);
+}
+
+@media screen and (max-width: 768px) {
+  .editable-header p {
+    text-align: center;
+  }
+}

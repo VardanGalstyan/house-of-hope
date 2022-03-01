@@ -1,0 +1,132 @@
+.article {
+  padding: 5px;
+  background-color: #fff;
+  margin: 0;
+}
+
+.article-header {
+  position: relative;
+  width: 100%;
+}
+
+.article-header img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.article-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(61, 58, 55, 0.1550770308123254) 60%,
+    rgb(19, 20, 20) 100%
+  );
+  z-index: 1;
+}
+
+.article-header img {
+  width: 100%;
+  height: 500px;
+  padding: 0 3px;
+  object-fit: cover;
+}
+
+.article-body {
+  padding: 1rem;
+}
+
+.article-body p {
+  font-family: var(--font-montserrat);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 30px;
+}
+
+.article-share {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.3rem 1.4rem;
+  margin-top: 1rem;
+}
+
+.article-share button {
+  margin: 2px;
+}
+
+.article-date {
+  position: absolute;
+  bottom: 50px;
+  padding: 5px;
+  font-size: 25px;
+  left: 0;
+  background-color: var(--bcg-secondary-dark);
+  color: white;
+}
+
+.article-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px 0 15px 0;
+  cursor: pointer;
+}
+
+.article-controls:hover {
+  color: var(--bcg-secondary-dark);
+}
+
+/* C A R O U S E L */
+
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 2;
+}
+
+/* P A G I N A T I O N */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.page-link {
+  border: none !important;
+  color: var(--text-main);
+  z-index: 1;
+  padding: 0.275rem 0.55rem;
+}
+
+.page-link:focus {
+  box-shadow: none !important;
+  color: var(--bcg-secondary-dark);
+  background-color: transparent !important;
+}
+
+.page-item.active .page-link {
+  background-color: #ed9281 !important;
+}
+
+.page-link:hover {
+  color: var(--bcg-secondary-dark);
+  border-radius: 3px;
+}
+
+.page-link span:first-child {
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0.375rem 0.25rem;
+}

@@ -1,0 +1,87 @@
+.project-post {
+  padding: 5px;
+  background-color: #fff;
+  margin: 0;
+}
+
+.main-post-header {
+  width: 100%;
+  position: relative;
+}
+
+.main-post-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(61, 58, 55, 0.1550770308123254) 80%,
+    rgb(19, 20, 20) 100%
+  );
+  z-index: 1;
+}
+
+.main-post-header img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  position: relative;
+}
+
+.main-post-body {
+  padding: 40px;
+  width: 100%;
+}
+
+.main-post-body p {
+  margin: 0 0 20px 0;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.main-post-body h1 {
+  padding: 0;
+  color: var(--text-main);
+}
+
+.main-post-body span {
+  font-size: 12px;
+  color: #8c8c8c;
+  font-family: var(--font-montserrat);
+}
+
+.main-post-admin-tools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 10px;
+}
+
+.main-post-admin-tools span svg {
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  margin: 2px;
+  color: var(--bcg-secondary-dark);
+  font-family: var(--font-montserrat);
+}
+
+.main-post-admin-tools span svg:hover {
+  color: var(--text-selected);
+  cursor: pointer;
+}
+
+.project-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 5px 0 15px 0;
+  cursor: pointer;
+}

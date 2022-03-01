@@ -1,0 +1,93 @@
+.navbar-fixed-top {
+  position: absolute;
+  width: 100%;
+  background-color: transparent;
+  overflow: hidden;
+  z-index: 3;
+  top: 0;
+  font-size: 20px;
+  user-select: none;
+}
+
+.navbar-static-top {
+  position: fixed;
+  background-color: rgba(32, 30, 30, 0.897);
+  width: 100%;
+  overflow: hidden;
+  z-index: 10;
+  font-size: 20px;
+  user-select: none;
+}
+
+.navbar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.donate-button {
+  padding: 5px 25px;
+  border-radius: 17px;
+  color: white;
+  border: none;
+  background-color: #5eae79;
+  z-index: 3;
+}
+
+.languages {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.561) !important;
+  font-size: 20px;
+}
+
+.languages span {
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s ease-in-out;
+}
+
+.languages span:hover {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.787) !important;
+  user-select: none;
+}
+
+#responsive-navbar-nav:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-border: none !important;
+  -webkit-outline: none !important;
+}
+
+.navbar-toggler:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-border: none !important;
+  -webkit-outline: none !important;
+}
+
+.navbar-nav a:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-border: none !important;
+  -webkit-outline: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .languages {
+    margin-top: 10px;
+  }
+}
