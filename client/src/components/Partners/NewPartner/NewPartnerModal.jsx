@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { getPartnerContext } from '../Partners.jsx';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { languageContext } from '../../../App.js';
+import { Modal, Button, Form } from 'react-bootstrap';
 import SmallLoader from '../../Reusable/SmallLoader.js';
+import Error from '../../Reusable/Error.jsx';
+import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../../projects/content.js';
+import { handlePartnerTitle } from '../content.js';
 
 function NewPartnerModal(props) {
 
     const getPartners = useContext(getPartnerContext);
+    const { language } = useContext(languageContext);
     const editPartner = props.partner;
     const method = editPartner ? 'PUT' : 'POST';
-    const endpoint = editPartner ? `https://house-of-hope.herokuapp.com/partners/${editPartner._id}` : 'https://house-of-hope.herokuapp.com/partners';
+    const endpoint = editPartner ? `${process.env.REACT_APP_SERVER}/partners/${editPartner._id}` : `${process.env.REACT_APP_SERVER}/partners`;
 
     const initialState = {
         name_am: editPartner ? editPartner.name_am : '',
         name_de: editPartner ? editPartner.name_de : '',
+        name_en: editPartner ? editPartner.name_en : '',
         logo: editPartner ? editPartner.logo : '',
     }
 
@@ -24,6 +30,7 @@ function NewPartnerModal(props) {
 
     const validPartnerNameAm = partner.name_am.length > 0;
     const validPartnerNameDe = partner.name_de.length > 0;
+    const validPartnerNameEn = partner.name_en.length > 0;
     const validLogo = image;
 
     const handleSubmit = async (e) => {
@@ -42,7 +49,7 @@ function NewPartnerModal(props) {
                 const data = await res.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`https://house-of-hope.herokuapp.com/partners/${data._id}/avatar`, {
+                const response = await fetch(`${process.env.REACT_APP_SERVER}/partners/${data._id}/avatar`, {
                     body: formData,
                     method: 'POST',
                 })
@@ -88,23 +95,11 @@ function NewPartnerModal(props) {
     }, [editPartner])
 
     return (
-        <Modal
-            {...props}
-            size="md"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
+        <Modal {...props} size="md" centered >
             <Modal.Header closeButton>
-                <Modal.Title>
-                    Add a Partner
-                </Modal.Title>
+                <Modal.Title> {handlePartnerTitle(language)} </Modal.Title>
             </Modal.Header>
-            {
-                error &&
-                <Alert variant="danger" className='d-flex justify-content-center' >
-                    <Alert.Heading>oops! You got an error!</Alert.Heading>
-                </Alert>
-            }
+            {error && <Error />}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
@@ -112,7 +107,7 @@ function NewPartnerModal(props) {
                             isValid={validPartnerNameAm}
                             isInvalid={!validPartnerNameAm}
                             type="text"
-                            placeholder="Partners Name"
+                            placeholder="Գործընկերոջ անվանումը"
                             value={partner.name_am}
                             onChange={(e) => setPartner({ ...partner, name_am: e.target.value })}
                         />
@@ -122,9 +117,19 @@ function NewPartnerModal(props) {
                             isValid={validPartnerNameDe}
                             isInvalid={!validPartnerNameDe}
                             type="text"
-                            placeholder="Partners Name"
+                            placeholder="Name des Partners"
                             value={partner.name_de}
                             onChange={(e) => setPartner({ ...partner, name_de: e.target.value })}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            isValid={validPartnerNameEn}
+                            isInvalid={!validPartnerNameEn}
+                            type="text"
+                            placeholder="Partners Name"
+                            value={partner.name_en}
+                            onChange={(e) => setPartner({ ...partner, name_en: e.target.value })}
                         />
                     </Form.Group>
                     <Form.Group >
@@ -139,16 +144,15 @@ function NewPartnerModal(props) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handleClose}>{handleFormCloseLanguage(language)}</Button>
                 {
                     loading ?
                         <SmallLoader color='white' /> :
                         <Button
                             type="submit"
                             disabled={!validPartnerNameAm || !validPartnerNameDe || (!editPartner ? !validLogo : null)}
-                            onClick={handleSubmit}>Submit
+                            onClick={handleSubmit}>{handleFormConfirmLanguage(language)}
                         </Button>
-
                 }
             </Modal.Footer>
         </Modal>

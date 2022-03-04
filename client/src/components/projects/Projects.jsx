@@ -1,37 +1,36 @@
 import './style.css';
-import React, { useState, useEffect, useContext, createContext } from 'react';
-import { Container, Alert } from 'react-bootstrap';
-import { languageContext } from '../../App';
+import { useState, useEffect, useContext, createContext } from 'react';
+import { Container } from 'react-bootstrap';
+import { languageContext, adminContext } from '../../App';
 import { BsFillArrowRightSquareFill, BsArrowLeftSquareFill } from 'react-icons/bs';
-import ProjectCard from './ProjectCard';
-import Headers from '../Reusable/Headers';
+import { handleProjectHeaderLanguage, handleProjectParagraphLanguage } from './content';
+import { IoCreateOutline } from 'react-icons/io5';
 import { FiCircle } from 'react-icons/fi';
 import { FaCircle } from 'react-icons/fa';
-import { IoCreateOutline } from 'react-icons/io5';
-import NewProjects from './NewProjects';
 import { Watch } from 'react-loader-spinner';
+import ProjectCard from './ProjectCard';
+import Error from '../Reusable/Error';
+import NewProjects from './NewProjects';
+import Headers from '../Reusable/Headers';
 
 export const ProjectContext = createContext();
 
 function Projects() {
 
+    const { isAdmin } = useContext(adminContext);
+    const { language } = useContext(languageContext);
     const [modalShow, setModalShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const { language } = useContext(languageContext);
     const [current, setCurrent] = useState(0);
     const [projects, setProjects] = useState([]);
 
 
-    useEffect(() => {
-        fetchProjects()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const fetchProjects = async () => {
         try {
             setLoading(true)
-            const response = await fetch('https://house-of-hope.herokuapp.com/projects')
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/projects`)
             if (response.ok) {
                 const projectsData = await response.json();
                 setProjects(projectsData);
@@ -49,6 +48,11 @@ function Projects() {
         }
     }
 
+    useEffect(() => {
+        fetchProjects()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const length = projects.length;
     const nextSlide = () => setCurrent(current === length - 1 ? 0 : current + 1);
     const prevSlide = () => setCurrent(current === 0 ? length - 1 : current - 1);
@@ -56,17 +60,17 @@ function Projects() {
     return (
         <Container fluid className='projects'>
             <ProjectContext.Provider value={fetchProjects}>
-                <div className='admin-options'>
-                    <IoCreateOutline onClick={() => setModalShow(true)} />
-                    <NewProjects show={modalShow} onHide={() => setModalShow(false)} />
-                </div>
-                <Headers title={language === 'am' ? 'Մեր Ծրագրերը' : 'Unsere Projekte'} paragraph={language === "am" ? 'ինչ որ տեքստ այստեղ' : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, rerum.'} />
                 {
-                    error &&
-                    <Alert variant="danger" className='d-flex justify-content-center' >
-                        <Alert.Heading>oops! You got an error!</Alert.Heading>
-                    </Alert>
+                    isAdmin &&
+                    < div className='admin-options'>
+                        <IoCreateOutline onClick={() => setModalShow(true)} />
+                        <NewProjects show={modalShow} onHide={() => setModalShow(false)} />
+                    </div>
                 }
+                <Headers
+                    title={handleProjectHeaderLanguage(language)}
+                    paragraph={handleProjectParagraphLanguage(language)} />
+                {error && <Error />}
                 <div className='project-container'>
                     {
                         projects.map((project, index) => index === current && <div key={index} className={index === current ? 'slide-active' : 'slide'}>
@@ -80,14 +84,9 @@ function Projects() {
                 </div>
                 <div className='project-indicators'>
                     {
-                        loading ?
-                            <Watch
-                                height="30"
-                                width="30"
-                                color='grey'
-                                ariaLabel='loading'
-                            /> :
-                            projects.map((title, index) =>
+                        loading
+                            ? <Watch height="30" width="30" color='grey' ariaLabel='loading' />
+                            : projects.map((title, index) =>
                                 <span key={index} onClick={() => setCurrent(index)}>
                                     {index !== current ? <FiCircle /> : <FaCircle />}
                                 </span>)

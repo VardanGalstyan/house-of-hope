@@ -1,8 +1,9 @@
-import React, { useContext, useState, useEffect, createContext } from 'react'
-import { languageContext } from '../../App.js'
+import { useContext, useState, useEffect, createContext } from 'react'
+import { languageContext, adminContext } from '../../App.js'
 import { Container } from 'react-bootstrap';
-import TeamMember from './TeamMember';
 import { IoCreateOutline } from 'react-icons/io5';
+import { handleTeamTitleLanguage, handleTeamParagraphLanguage } from './content.js'
+import TeamMember from './TeamMember';
 import NewTeamMemberModal from './NewTeamMemberModal.jsx';
 import Loader from '../Reusable/Loader.jsx';
 import Error from '../Reusable/Error.jsx';
@@ -12,6 +13,7 @@ export const teamMemberContext = createContext();
 
 function Team() {
 
+    const { isAdmin } = useContext(adminContext);
     const { language } = useContext(languageContext);
     const [modalShow, setModalShow] = useState(false);
     const [team, setTeam] = useState([]);
@@ -21,7 +23,7 @@ function Team() {
     const getTeams = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://house-of-hope.herokuapp.com/teams');
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/teams`);
             if (response.ok) {
                 const data = await response.json();
                 setTeam(data);
@@ -46,19 +48,24 @@ function Team() {
         <Container fluid className='teams'>
             <teamMemberContext.Provider value={getTeams}>
                 <div className='admin-options'>
-                    <IoCreateOutline onClick={() => setModalShow(true)} />
-                    <NewTeamMemberModal show={modalShow} onHide={() => setModalShow(false)} />
+                    {
+                        isAdmin &&
+                        <>
+                            <IoCreateOutline onClick={() => setModalShow(true)} />
+                            <NewTeamMemberModal show={modalShow} onHide={() => setModalShow(false)} />
+                        </>
+                    }
                 </div>
                 <Headers
-                    title={language === 'am' ? "Մեր Աշխատակիցները" : "Unsere Mitarbeiter"}
-                    paragraph={language === 'am' ? "Մեր Աշխատակիցները" : "Unsere Mitarbeiter"}
+                    title={handleTeamTitleLanguage(language)}
+                    paragraph={handleTeamParagraphLanguage(language)}
                 />
                 <div className='team-container'>
                     {
                         error ?
                             <Error /> :
                             loading ? <Loader /> :
-                                team.map((member, i) => < TeamMember key={member._id} member={member} reload={getTeams} />)
+                                team.map((member, i) => < TeamMember key={member._id} member={member} reload={getTeams} admin={isAdmin} />)
                     }
                 </div>
             </teamMemberContext.Provider>

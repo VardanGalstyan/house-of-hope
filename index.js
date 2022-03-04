@@ -29,8 +29,7 @@ server.use('/admin', adminRouter)
 
 server.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build', 'index.html'))
-}
-)
+})
 
 
 // M I D D L E W A R E   H E R E

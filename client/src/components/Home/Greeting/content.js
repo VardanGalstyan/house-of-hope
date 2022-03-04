@@ -62,3 +62,34 @@ export function ContentDe() {
     )
 }
 
+export function ContentEn() {
+    return (
+        <p>
+            Dear Friend,
+            <br />
+            <br />
+            Ich freue mich, Sie in der offiziellen Webseite  der Stiftung ’’Wohltätigkeitszentrum Haus der Hoffnung’’ begrüßen zu dürfen.
+            All Ihre Meinugen und Vorschläge über die Informationen in dieser Webseite und über unsere Tätigkeit im Allgemeinen sind für uns ganz wichtig.
+            <br />
+            <br />
+            Unter ''Haus der Hoffnung'' sind viele wohltätige Projekte in Eriwan und in einigen Regionen Armeniens tätig, die zur Verbesserung der Lebensqualität ungesicherter Familien, einsamer, älterer Menschen mit Gehproblemen sowie zur Erhöhung des Bildungsniveaus von Kindern und Jugendlichen beitragen.
+            <br />
+            <br />
+            Das Hauptziel unserer Projete ist die Entlastung sozialer Spannung, die Verbesserung des Zustandes der Bedürftigen und der Beitrag zur Entwicklung der Wohltätigkeitskultur im Land.
+            <br />
+            <br />
+            Bei dieser schweren und ehrenhaften Tätigkeit fördern freiwillig unsere Landleute und ausländische gutherzige Menschen und ihnen allen einigt das ehrliche und selbstlose Streben nach der Hilfe unserer Landsleute, die in den Schatten des Lebens geraten sind.
+            <br />
+            <br />
+            Ich würde mich sehr freuen, Sie in der Reihe unserer Förderer und Ehrenamtlichen sehen zu dürfen.
+            <br />
+            <br />
+            Mit Hochachtung,
+            <br />
+            Movses Poghosyan
+            <br />
+            Leiter der Stiftung
+        </p>
+    )
+}
+

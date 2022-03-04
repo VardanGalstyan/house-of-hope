@@ -1,14 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { SingleProjectContext } from './ProjectPost/ProjectPost';
+import { useState, useContext, useEffect } from 'react';
 import { languageContext } from '../../App';
+import { ProjectContext } from './Projects';
+import { SingleProjectContext } from './ProjectPost/ProjectPost';
 import { Modal, Form, Button } from 'react-bootstrap';
+import {
+    handleTitleNameLanguage,
+    handleFormContentLanguage,
+    handleFormImageLanguage,
+    handleFormNameLanguage,
+    handleFormConfirmLanguage,
+    handleFormCloseLanguage,
+} from './content';
 import SmallLoader from '../Reusable/SmallLoader.js';
 import Error from '../Reusable/Error';
 
 function NewProjects(props) {
 
     const { edited } = props;
-    const endpoint = edited ? `https://house-of-hope.herokuapp.com/projects/${edited._id}` : 'https://house-of-hope.herokuapp.com/projects';
+    const endpoint = edited ? `${process.env.REACT_APP_SERVER}/projects/${edited._id}` : `${process.env.REACT_APP_SERVER}/projects`;
     const method = edited ? 'PUT' : 'POST';
 
     const initialState = {
@@ -16,9 +25,12 @@ function NewProjects(props) {
         description_am: edited ? edited.description_am : '',
         title_de: edited ? edited.title_de : '',
         description_de: edited ? edited.description_de : '',
+        title_en: edited ? edited.title_en : '',
+        description_en: edited ? edited.description_en : '',
         cover: edited ? edited.cover : '',
     }
 
+    const fetchProjects = useContext(ProjectContext);
     const fetchProject = useContext(SingleProjectContext);
     const lang = useContext(languageContext).language;
     const [language, setLanguage] = useState('ARM');
@@ -26,13 +38,18 @@ function NewProjects(props) {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const armenian = language === 'ARM';
+    const arm = language === 'ARM';
+    const de = language === 'DE';
+    const en = language === 'EN';
+
 
 
     const validTitleAm = project && project.title_am
     const validTitleDe = project && project.title_de
+    const validTitleEn = project && project.title_en
     const validDescriptionAm = project && project.description_am
     const validDescriptionDe = project && project.description_de
+    const validDescriptionEn = project && project.description_en
     const validPictures = image;
 
 
@@ -58,15 +75,15 @@ function NewProjects(props) {
                 const data = await res.json();
                 const formData = new FormData()
                 formData.append('cover', image)
-                const response = await fetch(`https://house-of-hope.herokuapp.com/projects/${data._id}/cover`, {
+                const response = await fetch(`${process.env.REACT_APP_SERVER}/projects/${data._id}/cover`, {
                     body: formData,
                     method: 'POST',
                 })
                 if (response.ok) {
                     setLoading(false);
                     props.onHide();
-                    edited && fetchProject();
                     !edited && setProject(initialState);
+                    !edited && fetchProjects();
                 } else {
                     console.log(error);
                     setLoading(false);
@@ -75,9 +92,10 @@ function NewProjects(props) {
 
             } else if (res.ok && image === null) {
                 setLoading(false);
+                edited && fetchProject();
                 !edited && setProject(initialState);
                 props.onHide();
-                edited && fetchProject();
+
 
             } else {
                 console.log(error);
@@ -99,31 +117,32 @@ function NewProjects(props) {
         setLoading(false);
     }
 
+
     return (
         <Modal  {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {lang === 'am' ? 'Նոր Նախագիծ' : 'Neue Projekt'}
+                    {handleTitleNameLanguage(lang)}
                 </Modal.Title>
             </Modal.Header>
             {error && <Error />}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    {armenian ?
+                    {arm ?
                         <>
                             <Form.Group>
-                                <Form.Label>Title</Form.Label>
+                                <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
                                 <Form.Control
                                     isValid={validTitleAm}
                                     isInvalid={!validTitleAm}
                                     type="text"
-                                    placeholder="Enter the Title"
+                                    placeholder="Մուտքագրեք նախագծի անվանումը"
                                     value={project.title_am}
                                     onChange={(e) => setProject({ ...project, title_am: e.target.value })}
                                 />
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Example textarea</Form.Label>
+                                <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
                                 <Form.Control
                                     isValid={validDescriptionAm}
                                     isInvalid={!validDescriptionAm}
@@ -133,35 +152,60 @@ function NewProjects(props) {
                                     onChange={(e) => setProject({ ...project, description_am: e.target.value })}
                                 />
                             </Form.Group>
-                        </>
-                        :
-                        <>
-                            <Form.Group>
-                                <Form.Label>Title</Form.Label>
-                                <Form.Control
-                                    isValid={validTitleDe}
-                                    isInvalid={!validTitleDe}
-                                    type="text"
-                                    placeholder="Enter the Title"
-                                    value={project.title_de}
-                                    onChange={(e) => setProject({ ...project, title_de: e.target.value })}
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Example textarea</Form.Label>
-                                <Form.Control
-                                    isValid={validDescriptionDe}
-                                    isInvalid={!validDescriptionDe}
-                                    as="textarea"
-                                    rows={3}
-                                    value={project.description_de}
-                                    onChange={(e) => setProject({ ...project, description_de: e.target.value })}
-                                />
-                            </Form.Group>
-                        </>
+                        </> :
+                        de ?
+                            <>
+                                <Form.Group>
+                                    <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
+                                    <Form.Control
+                                        isValid={validTitleDe}
+                                        isInvalid={!validTitleDe}
+                                        type="text"
+                                        placeholder="Name des Projektes"
+                                        value={project.title_de}
+                                        onChange={(e) => setProject({ ...project, title_de: e.target.value })}
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
+                                    <Form.Control
+                                        isValid={validDescriptionDe}
+                                        isInvalid={!validDescriptionDe}
+                                        as="textarea"
+                                        rows={3}
+                                        value={project.description_de}
+                                        onChange={(e) => setProject({ ...project, description_de: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </> :
+                            en ?
+                                <>
+                                    <Form.Group>
+                                        <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
+                                        <Form.Control
+                                            isValid={validTitleEn}
+                                            isInvalid={!validTitleEn}
+                                            type="text"
+                                            placeholder="Enter the Title"
+                                            value={project.title_en}
+                                            onChange={(e) => setProject({ ...project, title_en: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
+                                        <Form.Control
+                                            isValid={validDescriptionEn}
+                                            isInvalid={!validDescriptionEn}
+                                            as="textarea"
+                                            rows={3}
+                                            value={project.description_en}
+                                            onChange={(e) => setProject({ ...project, description_en: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                </> : null
                     }
                     <Form.Group >
-                        <Form.Label>{armenian ? "Ավելացնել Նկարներ" : 'Add Images'}</Form.Label>
+                        <Form.Label>{handleFormImageLanguage(lang)}</Form.Label>
                         <Form.Control
                             isValid={edited ? " " : validPictures}
                             isInvalid={edited ? '' : !validPictures}
@@ -174,23 +218,27 @@ function NewProjects(props) {
                 <div className='selected-language'>
                     <span
                         onClick={() => setLanguage('ARM')}
-                        className={armenian ? 'selected' : ''}
+                        className={arm ? 'selected' : ''}
                     >ՀԱՅ</span>|
                     <span
                         onClick={() => setLanguage('DE')}
-                        className={armenian ? '' : 'selected'}
-                    >DE</span>
+                        className={de ? 'selected' : ''}
+                    >DE</span> |
+                    <span
+                        onClick={() => setLanguage('EN')}
+                        className={en ? 'selected' : ''}
+                    >EN</span>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button onClick={handleClose}>Close</button>
+                <button onClick={handleClose}>{handleFormCloseLanguage(lang)}</button>
                 {
                     loading ?
                         <SmallLoader color='white' /> :
                         <Button
                             type="submit"
                             disabled={(edited ? null : !validPictures) || !validTitleAm || !validTitleDe || !validDescriptionAm || !validDescriptionDe}
-                            onClick={handleSubmit}>Submit
+                            onClick={handleSubmit}>{handleFormConfirmLanguage(lang)}
                         </Button>
 
                 }
