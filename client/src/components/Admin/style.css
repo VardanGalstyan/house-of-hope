@@ -7,3 +7,9 @@
   width: 100vw;
   background-color: #ffffff;
 }
+
+.admin-logout {
+  width: 100%;
+  background-color: var(--bcg-secondary-dark) !important;
+  border: transparent;
+}

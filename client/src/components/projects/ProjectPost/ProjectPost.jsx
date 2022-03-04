@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
-import { languageContext } from '../../../App';
+import './style.css'
+import { useState, useEffect, useContext, createContext } from 'react';
+import { languageContext, adminContext } from '../../../App';
+import { RiDeleteBin6Fill, RiEdit2Fill } from 'react-icons/ri';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { RiDeleteBin6Fill, RiEdit2Fill } from 'react-icons/ri';
-import './style.css'
 import Loader from '../../Reusable/Loader';
 import Error from '../../Reusable/Error';
 import NewProjects from '../NewProjects';
@@ -13,9 +13,14 @@ export const SingleProjectContext = createContext();
 
 function ProjectPost() {
 
-    const { language } = useContext(languageContext);
-    const { id } = useParams();
 
+    const { isAdmin } = useContext(adminContext);
+    const { id } = useParams();
+    const { language } = useContext(languageContext);
+
+    const am = language === 'am';
+    const de = language === 'de';
+    const en = language === 'en';
 
     const [project, setProject] = useState({});
     const [modalShow, setModalShow] = useState(false);
@@ -23,12 +28,13 @@ function ProjectPost() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    console.log('test');
+    const { title_am, title_de, title_en, description_am, description_de, description_en, } = project;
+
 
     const fetchProject = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`https://house-of-hope.herokuapp.com/projects/${id}`)
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/projects/${id}`)
             if (response.ok) {
                 const data = await response.json();
                 setProject(data);
@@ -50,6 +56,7 @@ function ProjectPost() {
 
 
     return (
+
         <>
             {error ? <Error /> :
                 loading ?
@@ -61,10 +68,11 @@ function ProjectPost() {
                                 <img src={project.cover} alt="project-cover" />
                             </div>
                             <div className='main-post-body'>
-                                <h1>{language === 'am' ? project.title_am : project.title_de}</h1>
-                                <span> {language === 'am' ? project.description_am : project.description_de} </span>
+                                <h1>{am ? title_am : de ? title_de : en ? title_en : null}</h1>
+                                <span> {am ? description_am : de ? description_de : en ? description_en : null} </span>
                             </div>
                             {
+                                isAdmin &&
                                 <div className='main-post-admin-tools'>
                                     <span><RiEdit2Fill onClick={() => setModalShow(true)} /></span>
                                     <span><RiDeleteBin6Fill onClick={() => setDeleteModal(true)} /></span>

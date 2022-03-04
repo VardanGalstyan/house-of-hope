@@ -1,21 +1,25 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { teamMemberContext } from './Team.jsx';
+import { languageContext } from '../../App.js';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { handleTeamModalHeaderTitleLanguage } from './content.js'
+import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../projects/content.js';
 import Error from '../Reusable/Error.jsx';
 import SmallLoader from '../Reusable/SmallLoader.js';
 
-function NewTeamMemberModal(props) {
+function NewTeamMemberModal({ member, ...props }) {
 
     const getTeam = useContext(teamMemberContext);
-    const { member } = props;
     const method = member ? 'PUT' : 'POST';
-    const endpoint = member ? `https://house-of-hope.herokuapp.com/${member._id}` : 'https://house-of-hope.herokuapp.com/';
+    const endpoint = member ? `${process.env.REACT_APP_SERVER}/teams/${member._id}` : `${process.env.REACT_APP_SERVER}/teams`;
 
     const initialState = {
         name_am: member ? member.name_am : '',
         name_de: member ? member.name_de : '',
+        name_en: member ? member.name_en : '',
         position_am: member ? member.position_am : '',
         position_de: member ? member.position_de : '',
+        position_en: member ? member.position_en : '',
         avatar: member ? member.avatar : '',
     }
 
@@ -23,12 +27,15 @@ function NewTeamMemberModal(props) {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const { language } = useContext(languageContext);
 
 
     const validMemberNameAm = team.name_am.length > 0;
     const validMemberNameDe = team.name_de.length > 0;
+    const validMemberNameEn = team.name_en.length > 0;
     const validPositionAm = team.position_am.length > 0;
     const validPositionDe = team.position_de.length > 0;
+    const validPositionEn = team.position_en.length > 0;
     const validAvatar = image;
 
     const handleSubmit = async (e) => {
@@ -47,7 +54,7 @@ function NewTeamMemberModal(props) {
                 const data = await res.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`https://house-of-hope.herokuapp.com/${data._id}/avatar`, {
+                const response = await fetch(`${process.env.REACT_APP_SERVER}/teams/${data._id}/avatar`, {
                     body: formData,
                     method: 'POST',
                 })
@@ -89,20 +96,11 @@ function NewTeamMemberModal(props) {
     }, [member])
 
     return (
-        <Modal
-            {...props}
-            size="md"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
+        <Modal {...props} size="md" centered >
             <Modal.Header closeButton>
-                <Modal.Title>
-                    Add a team
-                </Modal.Title>
+                <Modal.Title>{handleTeamModalHeaderTitleLanguage(language)}</Modal.Title>
             </Modal.Header>
-            {
-                error && <Error />
-            }
+            {error && <Error />}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
@@ -130,7 +128,7 @@ function NewTeamMemberModal(props) {
                             isValid={validMemberNameDe}
                             isInvalid={!validMemberNameDe}
                             type="text"
-                            placeholder="Employee's Name"
+                            placeholder="Name"
                             value={team.name_de}
                             onChange={(e) => setTeam({ ...team, name_de: e.target.value })}
                         />
@@ -140,9 +138,29 @@ function NewTeamMemberModal(props) {
                             isValid={validPositionDe}
                             isInvalid={!validPositionDe}
                             type="text"
-                            placeholder="Position"
+                            placeholder="Stellung"
                             value={team.position_de}
                             onChange={(e) => setTeam({ ...team, position_de: e.target.value })}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            isValid={validMemberNameEn}
+                            isInvalid={!validMemberNameEn}
+                            type="text"
+                            placeholder="Employee's Name"
+                            value={team.name_en}
+                            onChange={(e) => setTeam({ ...team, name_en: e.target.value })}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Control
+                            isValid={validPositionEn}
+                            isInvalid={!validPositionEn}
+                            type="text"
+                            placeholder="Position"
+                            value={team.position_en}
+                            onChange={(e) => setTeam({ ...team, position_en: e.target.value })}
                         />
                     </Form.Group>
                     <Form.Group >
@@ -157,14 +175,14 @@ function NewTeamMemberModal(props) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handleClose}>{handleFormCloseLanguage(language)}</Button>
                 {
-                    loading ?
-                        <SmallLoader color='white' /> :
-                        <Button
+                    loading
+                        ? <SmallLoader color='white' />
+                        : <Button
                             type="submit"
                             disabled={!validMemberNameAm || !validMemberNameDe || (!member ? !validAvatar : null) || !validPositionAm || !validPositionDe}
-                            onClick={handleSubmit}>Submit
+                            onClick={handleSubmit}>{handleFormConfirmLanguage(language)}
                         </Button>
 
                 }

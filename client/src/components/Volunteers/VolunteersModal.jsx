@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { addVolunteerButton, newVolunteerEmail, newVolunteerMessage, newVolunteerName, newVolunteerPhone } from './content';
+import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../projects/content';
 
 function VolunteersModal(props) {
 
@@ -16,7 +18,7 @@ function VolunteersModal(props) {
     >
         <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-                {language === 'am' ? 'Միացիր հիմա' : 'Become a Proud Volunteer Now'}
+                {addVolunteerButton(language)}
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -24,18 +26,18 @@ function VolunteersModal(props) {
                 <Form.Group>
                     <Form.Control
                         type="text"
-                        placeholder={language === 'am' ? 'Ձեր անունը' : 'Hier'}
+                        placeholder={newVolunteerName(language)}
                     />
                 </Form.Group>
                 <Form.Group>
                     <Form.Control
                         type="email"
-                        placeholder={language === 'am' ? 'էլ - փոստի հասցեն' : 'Hier'}
+                        placeholder={newVolunteerEmail(language)}
                     />
                 </Form.Group>
                 <Form.Group>
                     <PhoneInput
-                        placeholder={language === 'am' ? 'Հեռախոսահամարը' : 'Hier'}
+                        placeholder={newVolunteerPhone(language)}
                         defaultCountry="AM"
                         value={value}
                         onChange={setValue}
@@ -45,23 +47,14 @@ function VolunteersModal(props) {
                     <Form.Control
                         as="textarea"
                         rows={3}
-                        placeholder={language === 'am' ? 'Ձեր հաղորդագրությունը' : 'Hier'}
+                        placeholder={newVolunteerMessage(language)}
                     />
                 </Form.Group>
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            {
-                language === 'am' ?
-                    <>
-                        <Button onClick={props.onHide}>Հաստատել</Button>
-                        <Button onClick={props.onHide}>Չեղարկել</Button>
-                    </> :
-                    <>
-                        <Button onClick={props.onHide}>Send</Button>
-                        <Button onClick={props.onHide}>Close</Button>
-                    </>
-            }
+            <Button onClick={props.onHide}>{handleFormConfirmLanguage(language)}</Button>
+            <Button onClick={props.onHide}>{handleFormCloseLanguage(language)}</Button>
         </Modal.Footer>
     </Modal>;
 }

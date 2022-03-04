@@ -3,6 +3,7 @@ import { languageContext } from '../../App';
 import { Container } from 'react-bootstrap';
 import VolunteersModal from './VolunteersModal';
 import './style.css'
+import { addVolunteerButton, addVolunteerDescription, addVolunteerTitle } from './content';
 
 function Volunteer() {
 
@@ -12,19 +13,9 @@ function Volunteer() {
     return (
         <Container fluid className='volunteers'>
             <div className='volunteers-main'>
-                {
-                    language === 'am' ?
-                        <>
-                            <h1>Դառնալ Կամավոր</h1>
-                            <p>Ինչ որ տեքստ այստեղ</p>
-                            <button onClick={() => setModalShow(true)}>Միացիր հիմա</button>
-                        </> :
-                        <>
-                            <h1>Become a Proud Volunteer Now</h1>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, rerum.</p>
-                            <button onClick={() => setModalShow(true)}>Join Now</button>
-                        </>
-                }
+                <h1>{addVolunteerTitle(language)}</h1>
+                <p>{addVolunteerDescription(language)}</p>
+                <button onClick={() => setModalShow(true)}>{addVolunteerButton(language)}</button>
             </div>
             <VolunteersModal show={modalShow} onHide={() => setModalShow(false)} language={language} />
         </Container>

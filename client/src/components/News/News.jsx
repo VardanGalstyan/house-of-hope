@@ -1,35 +1,33 @@
 import './style.css';
-import React, { useState, useContext, useEffect, createContext } from 'react';
-import { languageContext } from '../../App';
-import { Container, Alert } from 'react-bootstrap';
+import { useState, useContext, useEffect, createContext } from 'react';
+import { addNewsParagraphLanguage, addNewsTitleLanguage } from './content';
+import { languageContext, adminContext } from '../../App';
+import { Container } from 'react-bootstrap';
+import { IoCreateOutline } from 'react-icons/io5';
+import { Watch } from 'react-loader-spinner';
 import NewsItem from './NewsItem';
 import Headers from '../Reusable/Headers';
 import ArticleModal from './Article/ArticleModal';
 import PaginateArticles from './Article/PaginateArticles';
-import { IoCreateOutline } from 'react-icons/io5';
-import { Watch } from 'react-loader-spinner';
-import { useNavigate } from 'react-router-dom';
+import Error from '../Reusable/Error';
 
 export const NewsContext = createContext();
 
 function News() {
 
-
-    const [modalShow, setModalShow] = useState(false);
+    const { isAdmin } = useContext(adminContext);
     const { language } = useContext(languageContext);
+    const [modalShow, setModalShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [articles, setArticles] = useState([]);
     const [link, setLink] = useState('')
 
 
-
-
-
     const fetchNews = async () => {
         try {
             setLoading(true)
-            const response = await fetch(!link ? 'articles?limit=3' : link);
+            const response = await fetch(!link ? `${process.env.REACT_APP_SERVER}/articles?limit=3` : link);
             if (response.ok) {
                 const data = await response.json()
                 setArticles(data)
@@ -54,31 +52,20 @@ function News() {
     return (
         <Container fluid className='news'>
             <NewsContext.Provider value={fetchNews}>
-                <div className='admin-tools'>
-                    <IoCreateOutline onClick={() => setModalShow(true)} />
-                    <ArticleModal show={modalShow} onHide={() => setModalShow(false)} />
-                </div>
-                <Headers
-                    title={language === 'am' ? 'Նորություններ' : 'Nachrichten'}
-                    paragraph={language === 'am' ? 'Ինչ որ տեքստ' : 'etwas besonders'}
-                />
                 {
-                    error &&
-                    <Alert variant="danger" className='d-flex justify-content-center' >
-                        <Alert.Heading>oops! You got an error!</Alert.Heading>
-                    </Alert>
+                    isAdmin &&
+                    <div className='admin-tools'>
+                        <IoCreateOutline onClick={() => setModalShow(true)} />
+                        <ArticleModal show={modalShow} onHide={() => setModalShow(false)} />
+                    </div>
                 }
+                <Headers title={addNewsTitleLanguage(language)} paragraph={addNewsParagraphLanguage(language)} />
+                {error && <Error />}
                 <div className='news-body'>
                     {
-                        loading ?
-                            <Watch
-                                height="30"
-                                width="30"
-                                color='grey'
-                                ariaLabel='loading'
-                            />
-                            :
-                            articles.articles ? articles.articles.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1).map((news, index) => (
+                        loading
+                            ? <Watch height="30" width="30" color='grey' ariaLabel='loading' />
+                            : articles.articles ? articles.articles.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1).map((news, index) => (
                                 <NewsItem news={news} key={index} language={language} />
                             )) : null
                     }

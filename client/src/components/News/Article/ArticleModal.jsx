@@ -1,16 +1,21 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { NewsContext } from '../News';
 import { ArticleContext } from './Article';
-import { Modal, Form, Alert, Button } from 'react-bootstrap';
+import { languageContext } from '../../../App';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { addNewsDateLanguage, addNewsTitleLanguage } from '../content';
+import { handleFormCloseLanguage, handleFormConfirmLanguage, handleFormContentLanguage, handleFormImageLanguage, handleFormNameLanguage } from '../../projects/content';
 import SmallLoader from '../../Reusable/SmallLoader';
+import Error from '../../Reusable/Error';
 
 
-function ArticleModal(props) {
+function ArticleModal({ edited, ...props }) {
 
     const fetchNews = useContext(NewsContext);
     const fetchArticle = useContext(ArticleContext);
-    const { edited } = props;
-    const endpoint = edited ? `https://house-of-hope.herokuapp.com/${edited._id}` : 'https://house-of-hope.herokuapp.com/articles';
+    const lang = useContext(languageContext).language
+
+    const endpoint = edited ? `${process.env.REACT_APP_SERVER}/articles/${edited._id}` : `${process.env.REACT_APP_SERVER}/articles`;
     const method = edited ? 'PUT' : 'POST';
 
     const initialState = {
@@ -18,21 +23,28 @@ function ArticleModal(props) {
         description_am: edited ? edited.description_am : '',
         title_de: edited ? edited.title_de : '',
         description_de: edited ? edited.description_de : '',
+        title_en: edited ? edited.title_en : '',
+        description_en: edited ? edited.description_en : '',
         date: edited ? edited.date && edited.date.split('T')[0] : '',
         pictures: edited ? edited.pictures : [],
     }
 
-    const [language, setLanguage] = useState('ARM');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [article, setArticle] = useState(initialState);
     const [files, setFiles] = useState([]);
-    const armenian = language === 'ARM';
+
+    const [language, setLanguage] = useState('ARM');
+    const arm = language === 'ARM';
+    const de = language === 'DE';
+    const en = language === 'EN';
 
     const validTitleAm = article.title_am;
     const validTitleDe = article.title_de;
+    const validTitleEn = article.title_en;
     const validDescriptionAm = article.description_am;
     const validDescriptionDe = article.description_de;
+    const validDescriptionEn = article.description_en;
     const validDate = article.date
     const validPictures = files.length > 0;
 
@@ -54,23 +66,23 @@ function ArticleModal(props) {
                 const data = await response.json();
                 const formData = new FormData();
                 [...files[0]].forEach(file => formData.append('pictures', file));
-                const res = await fetch(`https://house-of-hope.herokuapp.com/articles/${data._id}/pictures`, {
+                const res = await fetch(`${process.env.REACT_APP_SERVER}/articles/${data._id}/pictures`, {
                     method: 'POST',
                     body: formData
                 })
                 if (res.ok) {
-                    props.onHide();
-                    setArticle(initialState);
                     setLoading(false)
-                    fetchNews();
-                    fetchArticle();
+                    edited && fetchArticle();
+                    !edited && fetchNews();
+                    props.onHide();
+                    !edited && setArticle(initialState);
                 }
             } else if (response.ok && files.length === 0) {
-                props.onHide();
-                fetchArticle();
-                setArticle(initialState);
                 setLoading(false)
-                fetchNews();
+                !edited && fetchNews();
+                edited && fetchArticle();
+                props.onHide();
+                !edited && setArticle(initialState);
 
             } else {
                 setLoading(false)
@@ -96,34 +108,20 @@ function ArticleModal(props) {
 
     useEffect(() => {
         setArticle(initialState);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [edited])
 
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title>
-                    New Article
-                </Modal.Title>
-            </Modal.Header>
-            {
-                error &&
-                <Alert variant="danger" className='d-flex justify-content-center' >
-                    <Alert.Heading>oops! You got an error!</Alert.Heading>
-                </Alert>
-            }
+        <Modal  {...props} size="lg" centered  >
+            <Modal.Header closeButton> <Modal.Title> {addNewsTitleLanguage(lang)} </Modal.Title> </Modal.Header>
+            {error && <Error />}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     {
-                        armenian
-                            ?
+                        arm ?
                             <>
                                 <Form.Group>
-                                    <Form.Label>Title</Form.Label>
+                                    <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
                                     <Form.Control
                                         isValid={validTitleAm}
                                         isInvalid={!validTitleAm}
@@ -135,7 +133,7 @@ function ArticleModal(props) {
                                     />
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label>Example textarea</Form.Label>
+                                    <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
                                     <Form.Control
                                         isValid={validDescriptionAm}
                                         isInvalid={!validDescriptionAm}
@@ -146,38 +144,65 @@ function ArticleModal(props) {
                                         onChange={(e) => setArticle({ ...article, description_am: e.target.value })}
                                     />
                                 </Form.Group>
-                            </>
-                            :
-                            <>
-                                <Form.Group>
-                                    <Form.Label>Title</Form.Label>
-                                    <Form.Control
-                                        isValid={validTitleDe}
-                                        isInvalid={!validTitleDe}
-                                        required
-                                        type="text"
-                                        placeholder="Enter the Title"
-                                        value={article.title_de}
-                                        onChange={(e) => setArticle({ ...article, title_de: e.target.value })}
-                                    />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Example textarea</Form.Label>
-                                    <Form.Control
-                                        isValid={validDescriptionDe}
-                                        isInvalid={!validDescriptionDe}
-                                        required
-                                        as="textarea"
-                                        rows={3}
-                                        value={article.description_de}
-                                        onChange={(e) => setArticle({ ...article, description_de: e.target.value })}
-                                    />
-                                </Form.Group>
+                            </> :
+                            de ?
+                                <>
+                                    <Form.Group>
+                                        <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
+                                        <Form.Control
+                                            isValid={validTitleDe}
+                                            isInvalid={!validTitleDe}
+                                            required
+                                            type="text"
+                                            placeholder="Enter the Title"
+                                            value={article.title_de}
+                                            onChange={(e) => setArticle({ ...article, title_de: e.target.value })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
+                                        <Form.Control
+                                            isValid={validDescriptionDe}
+                                            isInvalid={!validDescriptionDe}
+                                            required
+                                            as="textarea"
+                                            rows={3}
+                                            value={article.description_de}
+                                            onChange={(e) => setArticle({ ...article, description_de: e.target.value })}
+                                        />
+                                    </Form.Group>
 
-                            </>
+                                </> :
+                                en ?
+                                    <>
+                                        <Form.Group>
+                                            <Form.Label>{handleFormNameLanguage(lang)}</Form.Label>
+                                            <Form.Control
+                                                isValid={validTitleEn}
+                                                isInvalid={!validTitleEn}
+                                                required
+                                                type="text"
+                                                placeholder="Enter the Title"
+                                                value={article.title_en}
+                                                onChange={(e) => setArticle({ ...article, title_en: e.target.value })}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>{handleFormContentLanguage(lang)}</Form.Label>
+                                            <Form.Control
+                                                isValid={validDescriptionEn}
+                                                isInvalid={!validDescriptionEn}
+                                                required
+                                                as="textarea"
+                                                rows={3}
+                                                value={article.description_en}
+                                                onChange={(e) => setArticle({ ...article, description_en: e.target.value })}
+                                            />
+                                        </Form.Group>
+                                    </> : null
                     }
                     <Form.Group>
-                        <Form.Label>Date Here</Form.Label>
+                        <Form.Label>{addNewsDateLanguage(lang)}</Form.Label>
                         <Form.Control
                             isValid={validDate}
                             isInvalid={!validDate}
@@ -189,13 +214,13 @@ function ArticleModal(props) {
                         />
                     </Form.Group>
                     <Form.Group >
-                        <Form.Label>{armenian ? "Ավելացնել Նկարներ" : 'Add Images'}</Form.Label>
+                        <Form.Label>{handleFormImageLanguage(lang)}</Form.Label>
                         <Form.Control
                             isValid={edited ? '' : validPictures}
                             isInvalid={edited ? '' : !validPictures}
                             required
                             type="file"
-                            multiples='true'
+                            multiple
                             size="sm"
                             onChange={fileSelectedHandler}
                         />
@@ -204,23 +229,27 @@ function ArticleModal(props) {
                 <div className='selected-language'>
                     <span
                         onClick={() => setLanguage('ARM')}
-                        className={armenian ? 'selected' : ''}
+                        className={arm ? 'selected' : ''}
                     >ՀԱՅ</span>|
                     <span
                         onClick={() => setLanguage('DE')}
-                        className={armenian ? '' : 'selected'}
-                    >DE</span>
+                        className={de ? 'selected' : ''}
+                    >DE</span> |
+                    <span
+                        onClick={() => setLanguage('EN')}
+                        className={en ? 'selected' : ''}
+                    >EN</span>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button onClick={handleClose}>Close</button>
+                <button onClick={handleClose}>{handleFormCloseLanguage(lang)}</button>
                 {
                     loading ?
                         <SmallLoader color='white' /> :
                         <Button
                             type="submit"
                             disabled={(edited ? null : !validPictures) || !validTitleAm || !validTitleDe || !validDescriptionAm || !validDescriptionDe}
-                            onClick={handleSubmit}>Submit
+                            onClick={handleSubmit}>{handleFormConfirmLanguage(lang)}
                         </Button>
 
                 }

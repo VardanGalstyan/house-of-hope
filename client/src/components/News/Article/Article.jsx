@@ -4,6 +4,7 @@ import { languageContext } from '../../../App';
 import { Container, Carousel } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { RiDeleteBin6Fill, RiEdit2Fill } from 'react-icons/ri';
+import { adminContext } from '../../../App';
 import ArticleShare from './ArticleShare';
 import DeleteArticleModal from './DeleteArticleModal'
 import Error from '../../Reusable/Error';
@@ -14,9 +15,8 @@ export const ArticleContext = createContext();
 
 function Article() {
 
-
-
     const { language } = useContext(languageContext);
+    const { isAdmin } = useContext(adminContext);
     const { id } = useParams();
 
     const [modalShow, setModalShow] = useState(false);
@@ -29,7 +29,7 @@ function Article() {
     const fetchArticle = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`https://house-of-hope.herokuapp.com/articles/${id}`)
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/articles/${id}`)
             if (response.ok) {
                 const data = await response.json();
                 setArticle(data);
@@ -77,6 +77,7 @@ function Article() {
                                 <span className='article-date'> {`${day}, ${month} ${year}`}</span>
                             </div>
                             {
+                                isAdmin &&
                                 <div className='main-post-admin-tools'>
                                     <span><RiEdit2Fill onClick={() => setModalShow(true)} /></span>
                                     <span><RiDeleteBin6Fill onClick={() => setDeleteModal(true)} /></span>

@@ -3,17 +3,20 @@ import { useState, useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import { languageContext } from '../../../App';
 import { TiArrowForward, TiArrowBack } from 'react-icons/ti';
-import { ContentArm, ContentDe } from './content.js'
+import { ContentArm, ContentDe, ContentEn } from './content.js'
 import Headers from '../../Reusable/Headers';
 
 function Greeting() {
 
     const [greeting, setGreeting] = useState(false);
     const { language } = useContext(languageContext);
+    const armenian = language === 'am';
+    const german = language === 'de';
+    const english = language === 'en';
 
     return (
         <Container fluid className='greeting'>
-            <Headers title={language === "am" ? "Բարի Գալուստ Հուսո Տուն" : "Herzlich Willkommen im Haus der Hoffnung"} />
+            <Headers title={armenian ? "Բարի Գալուստ Հուսո Տուն" : german ? "Herzlich Willkommen im Haus der Hoffnung" : english ? "Welcome to House of Hope" : null} />
             < div className='greetings-content'>
                 {!greeting ?
                     <div
@@ -30,8 +33,9 @@ function Greeting() {
                 </div>
                 <div className={!greeting ? 'greeting-body' : 'body-active'}>
                     {
-                        language === 'am' ?
-                            <ContentArm /> : <ContentDe />
+                        armenian ? <ContentArm /> :
+                            german ? <ContentDe /> :
+                                english ? <ContentEn /> : null
                     }
                 </div>
             </div>
