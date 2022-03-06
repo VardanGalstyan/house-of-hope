@@ -30,7 +30,7 @@ function NewsItem({ news, language }) {
 
     return (
         <Col md={3} className='news-body-item'>
-            <img src={pictures[0]} alt="body-item-cover" />
+            <img src={pictures[0].url} alt="body-item-cover" />
             <div className='news-body-footer'>
                 <div className='news-body-item-date'>{`${month} ${day}, ${year}`}</div>
                 <h3>{am ? title_am : de ? title_de : en ? title_en : null}</h3>

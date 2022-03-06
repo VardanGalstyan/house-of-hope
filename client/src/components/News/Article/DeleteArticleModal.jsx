@@ -2,9 +2,9 @@ import { useState, useContext } from 'react'
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { languageContext } from '../../../App';
+import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../content';
 import Error from '../../Reusable/Error';
 import SmallLoader from '../../Reusable/SmallLoader';
-import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../content';
 
 function DeleteArticleModal({ article, ...props }) {
 
@@ -17,9 +17,8 @@ function DeleteArticleModal({ article, ...props }) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_SERVER}/articles/${article._id}`, {
-                method: 'DELETE',
-            })
+            (article.pictures.length > 0) && await fetch(`${process.env.REACT_APP_SERVER}/articles/${article._id}/delete-pictures`, { method: 'POST' });
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/articles/${article._id}`, { method: 'DELETE' })
             if (response.ok) {
                 setLoading(false);
                 props.onHide()
@@ -28,7 +27,6 @@ function DeleteArticleModal({ article, ...props }) {
                 console.log('error in delete Project')
                 setLoading(false);
                 setError(true);
-
             }
         } catch (error) {
             console.log(error)

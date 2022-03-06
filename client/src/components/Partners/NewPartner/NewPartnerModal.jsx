@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { getPartnerContext } from '../Partners.jsx';
 import { languageContext } from '../../../App.js';
 import { Modal, Button, Form } from 'react-bootstrap';
-import SmallLoader from '../../Reusable/SmallLoader.js';
-import Error from '../../Reusable/Error.jsx';
 import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../../projects/content.js';
 import { handlePartnerTitle } from '../content.js';
+import SmallLoader from '../../Reusable/SmallLoader.js';
+import Error from '../../Reusable/Error.jsx';
 
 function NewPartnerModal(props) {
 
@@ -19,7 +19,7 @@ function NewPartnerModal(props) {
         name_am: editPartner ? editPartner.name_am : '',
         name_de: editPartner ? editPartner.name_de : '',
         name_en: editPartner ? editPartner.name_en : '',
-        logo: editPartner ? editPartner.logo : '',
+        avatar: editPartner ? editPartner.avatar : {},
     }
 
     const [partner, setPartner] = useState(initialState);
@@ -31,13 +31,13 @@ function NewPartnerModal(props) {
     const validPartnerNameAm = partner.name_am.length > 0;
     const validPartnerNameDe = partner.name_de.length > 0;
     const validPartnerNameEn = partner.name_en.length > 0;
-    const validLogo = image;
+    const validAvatar = image;
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             setLoading(true)
-            const res = await fetch(endpoint, {
+            const partnerApi = await fetch(endpoint, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,15 +45,13 @@ function NewPartnerModal(props) {
                 },
                 body: JSON.stringify(partner)
             })
-            if (res.ok && image !== null) {
-                const data = await res.json()
+            if (partnerApi.ok && image !== null) {
+                const data = await partnerApi.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`${process.env.REACT_APP_SERVER}/partners/${data._id}/avatar`, {
-                    body: formData,
-                    method: 'POST',
-                })
-                if (response.ok) {
+                partner.avatar.url && await fetch(`${process.env.REACT_APP_SERVER}/partners/${data._id}/delete-avatar`, { method: 'POST' })
+                const AddCloudinary = await fetch(`${process.env.REACT_APP_SERVER}/partners/${data._id}/avatar`, { body: formData, method: 'POST' })
+                if (AddCloudinary.ok) {
                     props.onHide()
                     setLoading(false)
                     !editPartner && setPartner(initialState)
@@ -63,8 +61,7 @@ function NewPartnerModal(props) {
                     setError(true)
                     console.log(error);
                 }
-
-            } else if (res.ok && image === null) {
+            } else if (partnerApi.ok && image === null) {
                 props.onHide()
                 setLoading(false)
                 !editPartner && setPartner(initialState)
@@ -134,8 +131,8 @@ function NewPartnerModal(props) {
                     </Form.Group>
                     <Form.Group >
                         <Form.Control
-                            isValid={editPartner ? '' : validLogo}
-                            isInvalid={editPartner ? '' : !validLogo}
+                            isValid={editPartner ? '' : validAvatar}
+                            isInvalid={editPartner ? '' : !validAvatar}
                             type="file"
                             size="sm"
                             onChange={(e) => setImage(e.target.files[0])}
@@ -150,7 +147,7 @@ function NewPartnerModal(props) {
                         <SmallLoader color='white' /> :
                         <Button
                             type="submit"
-                            disabled={!validPartnerNameAm || !validPartnerNameDe || (!editPartner ? !validLogo : null)}
+                            disabled={!validPartnerNameAm || !validPartnerNameDe || (!editPartner ? !validAvatar : null)}
                             onClick={handleSubmit}>{handleFormConfirmLanguage(language)}
                         </Button>
                 }

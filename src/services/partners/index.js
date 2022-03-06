@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import PartnerModel from './schema.js';
 import { mediaStorage } from '../../utilities/mediaStorage.js';
+import { v2 as cloudinary } from 'cloudinary';
+import PartnerModel from './schema.js';
 import createError from 'http-errors';
 import multer from 'multer';
 
@@ -22,13 +23,25 @@ partnerRouter.post("/:id/avatar", multer({ storage: mediaStorage }).single("avat
         const partnerId = req.params.id;
         const partner = await PartnerModel.findById(partnerId);
         if (partner) {
-            const partnerAvatar = await PartnerModel.findByIdAndUpdate(partnerId, { avatar: req.file.path }, {
+            const partnerAvatar = await PartnerModel.findByIdAndUpdate(partnerId, { avatar: { url: req.file.path, public_id: req.file.filename } }, {
                 new: true
             })
             res.send(partnerAvatar)
         } else {
             next(createError(404, `Partner with id # ${partnerId} has not been found!`))
         }
+    } catch (error) {
+        next(error)
+    }
+
+})
+
+partnerRouter.post("/:id/delete-avatar", async (req, res, next) => {
+    try {
+        const { avatar } = await PartnerModel.findById(req.params.id).select('avatar');
+        cloudinary.uploader.destroy(avatar.public_id, function (error, result) {
+            res.status(200).send({ result, error })
+        })
     } catch (error) {
         next(error)
     }

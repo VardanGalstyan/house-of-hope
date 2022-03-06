@@ -8,7 +8,7 @@ const projectSchema = new Schema({
     description_am: { type: String, required: true },
     description_de: { type: String, required: true },
     description_en: { type: String, required: true },
-    cover: { type: String, required: false },
+    cover: {},
 },
     { timestamps: true }
 )

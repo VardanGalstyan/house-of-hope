@@ -3,7 +3,10 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary'
 
 export const mediaStorage = new CloudinaryStorage({
     cloudinary,
-    params: {
-        folder: "HouseOfHope"
+    params: async (req, file) => {
+        return {
+            folder: "HouseOfHope",
+            allowedFormats: ["jpg", "png", "jpeg"],
+        }
     }
 })

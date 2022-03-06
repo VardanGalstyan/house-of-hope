@@ -67,7 +67,7 @@ function Article() {
                                         article.pictures && article.pictures.map((picture, index) => (
                                             <Carousel.Item key={index}>
                                                 <img
-                                                    src={picture}
+                                                    src={picture.url}
                                                     alt={`Slide ${index + 1}`}
                                                 />
                                             </Carousel.Item>

@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import ArticleModel from './schema.js';
 import { mediaStorage } from '../../utilities/mediaStorage.js';
+import { v2 as cloudinary } from 'cloudinary';
+import ArticleModel from './schema.js';
 import createError from 'http-errors';
 import multer from 'multer';
 import q2m from 'query-to-mongo';
@@ -28,12 +29,26 @@ articleRouter.post("/:id/pictures", multer({ storage: mediaStorage }).array("pic
         const articleId = req.params.id;
         const article = await ArticleModel.findById(articleId);
         if (article) {
-            const articleAvatar = await ArticleModel.findByIdAndUpdate(articleId, { pictures: req.files.map(file => file.path) }, {
+            const articleAvatar = await ArticleModel.findByIdAndUpdate(articleId, { pictures: req.files.map(file => ({ url: file.path, public_id: file.filename })) }, {
                 new: true
             })
             res.send(articleAvatar)
         } else {
             next(createError(404, `Article with id # ${articleId} has not been found!`))
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+articleRouter.post("/:id/delete-pictures", async (req, res, next) => {
+    try {
+        const { pictures } = await ArticleModel.findById(req.params.id).select('pictures');
+        if (pictures.length === 0) {
+            return res.status(404).send({ result: 'No images uploaded!' })
+        } else {
+            pictures.forEach(picture => cloudinary.uploader.destroy(picture.public_id));
+            res.status(200).send({ result: 'Pictures were successfully removed' })
         }
     } catch (error) {
         next(error)

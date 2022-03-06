@@ -8,7 +8,7 @@ const employeeSchema = new Schema({
     position_am: { type: String, required: true },
     position_de: { type: String, required: true },
     position_en: { type: String, required: true },
-    avatar: { type: String, required: false },
+    avatar: {},
 },
     { timestamps: true }
 )
