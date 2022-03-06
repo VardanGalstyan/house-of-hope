@@ -27,7 +27,7 @@ function ProjectCard({ project }) {
     return (
         <div className='project-card'>
             <div className='project-card-header'>
-                <img src={cover} alt="project-header" />
+                <img src={cover.url} alt="project-header" />
                 <div className='project-create-date'>
                     <span>{`${day} ${month}`}</span>
                     <span>{year}</span>

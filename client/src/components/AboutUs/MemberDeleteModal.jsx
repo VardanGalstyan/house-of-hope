@@ -14,9 +14,8 @@ function MemberDeleteModal({ member, language, ...props }) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_SERVER}/teams/${member._id}`, {
-                method: 'DELETE',
-            })
+            member.avatar && await fetch(`${process.env.REACT_APP_SERVER}/teams/${member._id}/delete-avatar`, { method: 'POST' })
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/teams/${member._id}`, { method: 'DELETE' })
             if (response.ok) {
                 setLoading(false);
                 getTeam()
@@ -37,11 +36,7 @@ function MemberDeleteModal({ member, language, ...props }) {
     }
 
     return (
-        <Modal
-            {...props}
-            size="sm"
-            centered
-        >
+        <Modal {...props} size="sm" centered  >
             {error && <Error />}
             <Modal.Body className='d-flex justify-content-center'>
                 {loading

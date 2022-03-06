@@ -19,7 +19,7 @@ function TeamMember({ member, admin }) {
     return (
         <Col xs={10} md={3} className='team-member'>
             <div className='member-header'>
-                <img src={member.avatar} alt="team-member" />
+                <img src={member.avatar.url} alt="team-member" />
             </div>
             <div className='member-body'>
                 <h4>{arm ? name_am : de ? name_de : en ? name_en : null}</h4>

@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react'
 import { getPartnerContext } from '../Partners';
 import { Modal, Button } from 'react-bootstrap';
+import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../../News/content';
 import Error from '../../Reusable/Error';
 import SmallLoader from '../../Reusable/SmallLoader';
-import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../../News/content';
 
 function DeletePartnerModal({ partner, language, ...props }) {
 
@@ -14,9 +14,8 @@ function DeletePartnerModal({ partner, language, ...props }) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_SERVER}/partners/${partner._id}`, {
-                method: 'DELETE',
-            })
+            partner.avatar && await fetch(`${process.env.REACT_APP_SERVER}/partners/${partner._id}/delete-avatar`, { method: 'POST' })
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/partners/${partner._id}`, { method: 'DELETE' })
             if (response.ok) {
                 props.onHide()
                 setLoading(false);

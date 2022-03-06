@@ -30,6 +30,7 @@ function NewTeamMemberModal({ member, ...props }) {
     const { language } = useContext(languageContext);
 
 
+    // V A L I D A T I O N
     const validMemberNameAm = team.name_am.length > 0;
     const validMemberNameDe = team.name_de.length > 0;
     const validMemberNameEn = team.name_en.length > 0;
@@ -42,7 +43,7 @@ function NewTeamMemberModal({ member, ...props }) {
         e.preventDefault()
         try {
             setLoading(true)
-            const res = await fetch(endpoint, {
+            const memberApi = await fetch(endpoint, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,30 +51,29 @@ function NewTeamMemberModal({ member, ...props }) {
                 },
                 body: JSON.stringify(team)
             })
-            if (res.ok && image !== null) {
-                const data = await res.json()
+            if (memberApi.ok && image !== null) {
+                const data = await memberApi.json()
                 const formData = new FormData()
                 formData.append('avatar', image)
-                const response = await fetch(`${process.env.REACT_APP_SERVER}/teams/${data._id}/avatar`, {
-                    body: formData,
-                    method: 'POST',
-                })
-                if (response.ok) {
+                team.avatar.url && await fetch(`${process.env.REACT_APP_SERVER}/teams/${data._id}/delete-avatar`, { method: 'POST' })
+                const AddCloudinary = await fetch(`${process.env.REACT_APP_SERVER}/teams/${data._id}/avatar`, { body: formData, method: 'POST' })
+                if (AddCloudinary.ok) {
                     setLoading(false)
                     setTeam(initialState)
                     props.onHide()
                     getTeam()
                 } else {
+                    console.log('Image was not properly uploaded');
                     setLoading(false)
                     setError(true)
                 }
-            } else if (res.ok && image === null) {
+            } else if (memberApi.ok && image === null) {
                 setLoading(false)
                 setTeam(initialState)
                 props.onHide()
                 getTeam()
-            }
-            else {
+            } else {
+                console.log('here');
                 setLoading(false)
                 setError(true)
             }

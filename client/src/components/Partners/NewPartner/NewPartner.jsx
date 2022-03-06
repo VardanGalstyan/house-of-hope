@@ -20,7 +20,7 @@ function NewPartner({ partner, admin, language }) {
     return (
         <Col md={3} className='single-partner'>
             <div className='single-partner-image'>
-                <img src={partner.avatar} alt="partner-logo" />
+                <img src={partner.avatar && partner.avatar.url} alt="partner-logo" />
             </div>
             {!partner.avatar ? <span>{arm ? name_am : de ? name_de : en ? name_en : null}</span> : null}
             {

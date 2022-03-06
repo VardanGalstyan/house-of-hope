@@ -9,7 +9,7 @@ const articleSchema = new Schema({
     description_de: { type: String, required: true },
     description_en: { type: String, required: true },
     date: { type: Date, required: true },
-    pictures: [{ type: String, required: false }],
+    pictures: [{}],
 },
     { timestamps: true }
 )

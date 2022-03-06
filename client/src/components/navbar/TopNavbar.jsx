@@ -12,7 +12,7 @@ function TopNavbar({ lang, language }) {
 
 
     const navigate = useNavigate();
-    const [expanded, setExpanded] = useState(true);
+    const [expanded, setExpanded] = useState(false);
     const [navbar, setNavbar] = useState(false);
     const english = language === 'en'
     const german = language === 'de'

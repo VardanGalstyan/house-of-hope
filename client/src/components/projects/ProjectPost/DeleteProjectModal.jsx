@@ -17,9 +17,8 @@ function DeleteProjectModal({ project, ...props }) {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_SERVER}/projects/${project._id}`, {
-                method: 'DELETE',
-            })
+            project.cover && await fetch(`${process.env.REACT_APP_SERVER}/projects/${project._id}/delete-cover`, { method: 'POST' })
+            const response = await fetch(`${process.env.REACT_APP_SERVER}/projects/${project._id}`, { method: 'DELETE' })
             if (response.ok) {
                 setLoading(false);
                 props.onHide()

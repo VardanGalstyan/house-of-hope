@@ -5,7 +5,7 @@ const partnersSchema = new Schema({
     name_am: { type: String, required: true },
     name_de: { type: String, required: true },
     name_en: { type: String, required: true },
-    avatar: { type: String, required: false },
+    avatar: {},
 },
     { timestamps: true }
 )

@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import EmployeeModel from './schema.js';
 import { mediaStorage } from '../../utilities/mediaStorage.js';
+import { v2 as cloudinary } from 'cloudinary';
+import EmployeeModel from './schema.js';
 import createError from 'http-errors';
 import multer from 'multer';
 
@@ -22,13 +23,24 @@ teamRouter.post("/:id/avatar", multer({ storage: mediaStorage }).single("avatar"
         const employeeId = req.params.id;
         const employee = await EmployeeModel.findById(employeeId);
         if (employee) {
-            const employeeAvatar = await EmployeeModel.findByIdAndUpdate(employeeId, { avatar: req.file.path }, {
+            const employeeAvatar = await EmployeeModel.findByIdAndUpdate(employeeId, { avatar: { url: req.file.path, public_id: req.file.filename } }, {
                 new: true
             })
             res.send(employeeAvatar)
         } else {
             next(createError(404, `Employee with id # ${employeeId} has not been found!`))
         }
+    } catch (error) {
+        next(error)
+    }
+})
+
+teamRouter.post("/:id/delete-avatar", async (req, res, next) => {
+    try {
+        const { avatar } = await EmployeeModel.findById(req.params.id).select('avatar');
+        cloudinary.uploader.destroy(avatar.public_id, function (error, result) {
+            res.status(200).send({ result, error })
+        })
     } catch (error) {
         next(error)
     }

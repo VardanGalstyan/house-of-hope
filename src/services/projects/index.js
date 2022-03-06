@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import ProjectModel from './schema.js';
 import { mediaStorage } from '../../utilities/mediaStorage.js';
+import { v2 as cloudinary } from 'cloudinary';
+import ProjectModel from './schema.js';
 import createError from 'http-errors';
 import multer from 'multer';
 
@@ -22,13 +23,24 @@ projectRouter.post("/:id/cover", multer({ storage: mediaStorage }).single("cover
         const projectId = req.params.id;
         const project = await ProjectModel.findById(projectId);
         if (project) {
-            const projectCover = await ProjectModel.findByIdAndUpdate(projectId, { cover: req.file.path }, {
+            const projectCover = await ProjectModel.findByIdAndUpdate(projectId, { cover: { url: req.file.path, public_id: req.file.filename } }, {
                 new: true
             })
             res.send(projectCover)
         } else {
             next(createError(404, `Project with id # ${projectId} has not been found!`))
         }
+    } catch (error) {
+        next(error)
+    }
+})
+
+projectRouter.post("/:id/delete-cover", async (req, res, next) => {
+    try {
+        const { cover } = await ProjectModel.findById(req.params.id).select('cover');
+        cloudinary.uploader.destroy(cover.public_id, function (error, result) {
+            res.status(200).send({ result, error })
+        })
     } catch (error) {
         next(error)
     }

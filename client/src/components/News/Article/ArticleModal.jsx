@@ -54,7 +54,7 @@ function ArticleModal({ edited, ...props }) {
         e.preventDefault();
         try {
             setLoading(true)
-            const response = await fetch(endpoint, {
+            const articleApi = await fetch(endpoint, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,22 +62,20 @@ function ArticleModal({ edited, ...props }) {
                 },
                 body: JSON.stringify(article)
             })
-            if (response.ok && files.length !== 0) {
-                const data = await response.json();
+            if (articleApi.ok && files.length !== 0) {
+                const data = await articleApi.json();
                 const formData = new FormData();
                 [...files[0]].forEach(file => formData.append('pictures', file));
-                const res = await fetch(`${process.env.REACT_APP_SERVER}/articles/${data._id}/pictures`, {
-                    method: 'POST',
-                    body: formData
-                })
-                if (res.ok) {
+                (article.pictures.length > 0) && await fetch(`${process.env.REACT_APP_SERVER}/articles/${data._id}/delete-pictures`, { method: 'POST' })
+                const addCloudinary = await fetch(`${process.env.REACT_APP_SERVER}/articles/${data._id}/pictures`, { method: 'POST', body: formData })
+                if (addCloudinary.ok) {
                     setLoading(false)
                     edited && fetchArticle();
                     !edited && fetchNews();
                     props.onHide();
                     !edited && setArticle(initialState);
                 }
-            } else if (response.ok && files.length === 0) {
+            } else if (articleApi.ok && files.length === 0) {
                 setLoading(false)
                 !edited && fetchNews();
                 edited && fetchArticle();

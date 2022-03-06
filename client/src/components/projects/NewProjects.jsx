@@ -63,7 +63,7 @@ function NewProjects(props) {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await fetch(endpoint, {
+            const projectApi = await fetch(endpoint, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,15 +71,13 @@ function NewProjects(props) {
                 },
                 body: JSON.stringify(project)
             })
-            if (res.ok && image !== null) {
-                const data = await res.json();
+            if (projectApi.ok && image !== null) {
+                const data = await projectApi.json();
                 const formData = new FormData()
                 formData.append('cover', image)
-                const response = await fetch(`${process.env.REACT_APP_SERVER}/projects/${data._id}/cover`, {
-                    body: formData,
-                    method: 'POST',
-                })
-                if (response.ok) {
+                project.cover.url && await fetch(`${process.env.REACT_APP_SERVER}/projects/${data._id}/delete-cover`, { method: 'POST' })
+                const addCloudinary = await fetch(`${process.env.REACT_APP_SERVER}/projects/${data._id}/cover`, { body: formData, method: 'POST' })
+                if (addCloudinary.ok) {
                     setLoading(false);
                     props.onHide();
                     !edited && setProject(initialState);
@@ -90,7 +88,7 @@ function NewProjects(props) {
                     setError(true);
                 }
 
-            } else if (res.ok && image === null) {
+            } else if (projectApi.ok && image === null) {
                 setLoading(false);
                 edited && fetchProject();
                 !edited && setProject(initialState);
@@ -119,7 +117,7 @@ function NewProjects(props) {
 
 
     return (
-        <Modal  {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered >
+        <Modal  {...props} size="lg" centered >
             <Modal.Header closeButton>
                 <Modal.Title>
                     {handleTitleNameLanguage(lang)}
