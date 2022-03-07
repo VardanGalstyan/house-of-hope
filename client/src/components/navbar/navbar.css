@@ -9,6 +9,10 @@
   user-select: none;
 }
 
+.navbar-fixed-top .container-md {
+  padding: 10px 120px 20px 120px;
+}
+
 .navbar-static-top {
   position: fixed;
   background-color: rgba(32, 30, 30, 0.897);
@@ -86,11 +90,21 @@
   -webkit-outline: none !important;
 }
 
+/* M E D I A  S C R E E N */
+
 @media screen and (max-width: 768px) {
   .languages {
     margin-top: 10px;
   }
 }
+
+@media screen and (max-width: 991px) {
+  .navbar-fixed-top .container-md {
+    padding: 5px 20px;
+  }
+}
+
+/* A N I M A T I O N  */
 
 .navbar-static-top {
   -webkit-animation: fade-in 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;

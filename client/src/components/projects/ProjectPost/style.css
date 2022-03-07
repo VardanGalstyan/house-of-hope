@@ -1,12 +1,13 @@
 .project-post {
-  padding: 5px;
+  font-family: var(--font-montserrat);
+  padding: 10px 150px 20px 150px;
   background-color: #fff;
   margin: 0;
 }
 
 .main-post-header {
-  width: 100%;
   position: relative;
+  width: 100%;
 }
 
 .main-post-header::after {
@@ -45,14 +46,18 @@
 }
 
 .main-post-body h1 {
+  font-family: var(--font-braind);
+  font-size: 5vw;
+  font-weight: 700;
   padding: 0;
   color: var(--text-main);
 }
 
 .main-post-body span {
-  font-size: 12px;
-  color: #8c8c8c;
-  font-family: var(--font-montserrat);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 30px;
+  text-align: justify;
 }
 
 .main-post-admin-tools {
@@ -84,4 +89,12 @@
   align-items: center;
   padding: 5px 0 15px 0;
   cursor: pointer;
+}
+
+
+
+@media screen and (max-width: 991px) {
+  .project-post {
+    padding: 2px;
+  }
 }
