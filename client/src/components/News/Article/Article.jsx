@@ -18,6 +18,9 @@ function Article() {
     const { language } = useContext(languageContext);
     const { isAdmin } = useContext(adminContext);
     const { id } = useParams();
+    const am = language === 'am',
+    const en = language === 'en',
+    const de = language === 'de';
 
     const [modalShow, setModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
@@ -84,8 +87,8 @@ function Article() {
                                 </div>
                             }
                             <div className='article-body'>
-                                <h1>{language === 'am' ? article.title_am : article.title_de}</h1>
-                                <p>{language === 'am' ? article.title_am : article.title_de}</p>
+                                <h1>{am ? article.title_am : de ? article.title_de : en ? article.title_en : null}</h1>
+                                <p>{am ? article.description_am : de ? article.description_de : en ? article.description_en : null}</p>
                             </div>
                             <ArticleContext.Provider value={fetchArticle}>
                                 <ArticleModal show={modalShow} onHide={() => setModalShow(false)} edited={article} />
