@@ -18,9 +18,9 @@ function Article() {
     const { language } = useContext(languageContext);
     const { isAdmin } = useContext(adminContext);
     const { id } = useParams();
-    const am = language === 'am',
-    const en = language === 'en',
-    const de = language === 'de';
+    const am = language === 'am'
+    const en = language === 'en'
+    const de = language === 'de'
 
     const [modalShow, setModalShow] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
