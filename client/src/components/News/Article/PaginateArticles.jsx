@@ -7,7 +7,7 @@ function PaginateArticles({ total, links, link }) {
 
     const selectedPage = (e, i) => {
         setSelected(e.target.innerText);
-        link(`${process.env.REACT_APP_SERVER}/articles?limit=3&offset=${((i + 1) - 1) * 3}`)
+        link(`${process.env.REACT_APP_SERVER}/articles?sort=name,-date&limit=3&offset=${((i + 1) - 1) * 3}`)
     }
 
     const selectedNavPage = (e) => {
