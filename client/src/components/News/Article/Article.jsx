@@ -67,14 +67,19 @@ function Article() {
                             <div className='article-header'>
                                 <Carousel>
                                     {
-                                        article.pictures && article.pictures.map((picture, index) => (
-                                            <Carousel.Item key={index}>
-                                                <img
-                                                    src={picture.url}
-                                                    alt={`Slide ${index + 1}`}
-                                                />
+
+                                        article.pictures && article.pictures.length > 0
+                                            ? article.pictures.map((picture, index) => (
+                                                <Carousel.Item key={index}>
+                                                    <img
+                                                        src={picture.url}
+                                                        alt={`Slide ${index + 1}`}
+                                                    />
+                                                </Carousel.Item>
+                                            ))
+                                            : <Carousel.Item>
+                                                <img src="https://via.placeholder.com/900/500" alt="slide-item" />
                                             </Carousel.Item>
-                                        ))
                                     }
                                 </Carousel>
                                 <span className='article-date'> {`${day}, ${month} ${year}`}</span>

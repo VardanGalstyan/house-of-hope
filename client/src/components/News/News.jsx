@@ -23,11 +23,12 @@ function News() {
     const [articles, setArticles] = useState([]);
     const [link, setLink] = useState('')
 
+    console.log(articles);
 
     const fetchNews = async () => {
         try {
             setLoading(true)
-            const response = await fetch(!link ? `${process.env.REACT_APP_SERVER}/articles?limit=3` : link);
+            const response = await fetch(!link ? `${process.env.REACT_APP_SERVER}/articles?sort=name,-date&limit=3` : link);
             if (response.ok) {
                 const data = await response.json()
                 setArticles(data)
