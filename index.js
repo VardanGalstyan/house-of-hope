@@ -21,11 +21,11 @@ server.use(express.static(path.join(__dirname, './client/build')))
 
 // R O U T E S   H E R E 
 
-server.use('/projects', projectRouter)
-server.use('/articles', articleRouter)
-server.use('/teams', teamRouter)
-server.use('/partners', partnerRouter)
-server.use('/admin', adminRouter)
+server.use('/api/projects', projectRouter)
+server.use('/api/articles', articleRouter)
+server.use('/api/teams', teamRouter)
+server.use('/api/partners', partnerRouter)
+server.use('/api/admin', adminRouter)
 
 server.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/build', 'index.html'))
