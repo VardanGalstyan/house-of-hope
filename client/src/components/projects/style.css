@@ -14,6 +14,8 @@
 }
 
 .project-container {
+  box-shadow: rgba(189, 189, 189, 0.644) 0px 0px 10px;
+  background-color: rgb(243, 243, 243);
   margin-left: 50px;
   margin-top: 80px;
   width: 60%;
@@ -25,7 +27,6 @@
   top: -50px;
   left: -120px;
   width: 250px;
-  height: 200px;
   z-index: 3;
   -webkit-animation: slide-out-left 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
     both;
@@ -34,9 +35,9 @@
 
 .project-card-header img {
   width: 250px;
-  height: 200px;
+  height: 100%;
   padding: 5px;
-  background-color: white;
+  background-color: rgb(243, 243, 243);
   object-fit: cover;
 }
 
@@ -62,8 +63,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  box-shadow: rgba(189, 189, 189, 0.644) 0px 0px 10px;
-  background-color: rgb(243, 243, 243);
   padding: 50px 50px 30px 150px;
   height: 180px;
   -webkit-animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -104,8 +103,8 @@
   left: -115px;
   display: flex;
   gap: 5px;
-  background-color: white;
   object-fit: cover;
+  margin-bottom: 10px;
 }
 
 .project-switch span {

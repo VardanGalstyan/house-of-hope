@@ -41,7 +41,7 @@ function Admin() {
                 setError(true)
             };
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

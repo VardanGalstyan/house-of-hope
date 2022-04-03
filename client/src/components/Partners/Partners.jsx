@@ -1,5 +1,5 @@
 import './style.css'
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext, useCallback } from 'react';
 import { languageContext, adminContext } from '../../App';
 import { handlePartnerHeader } from './content.js';
 import { Container } from 'react-bootstrap';
@@ -21,7 +21,7 @@ function Partners() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const getPartners = async () => {
+    const getPartners = useCallback(async () => {
         try {
             setLoading(true);
             const response = await fetch(`${process.env.REACT_APP_SERVER}/partners`);
@@ -37,11 +37,12 @@ function Partners() {
             setError(true)
             setLoading(false)
         }
-    }
+    }, [])
 
 
     useEffect(() => {
         getPartners()
+
     }, []);
 
 

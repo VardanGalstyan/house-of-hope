@@ -1,5 +1,5 @@
 import './navbar.css'
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import ls from 'localstorage-slim'
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
@@ -18,46 +18,46 @@ function TopNavbar({ lang, language }) {
     const german = language === 'de'
     const armenian = language === 'am'
 
-    const handleHomeClick = (e) => {
+    const handleHomeClick = useCallback((e) => {
         navigate('/')
         setExpanded(false)
-    }
+    }, [navigate])
 
-    const handleAboutUs = (e) => {
+    const handleAboutUs = useCallback((e) => {
         navigate('/about-us')
         setExpanded(false)
-    }
+    }, [navigate])
 
-    const handlePartners = (e) => {
+    const handlePartners = useCallback((e) => {
         navigate('/partners')
         setExpanded(false)
-    }
+    }, [navigate])
 
-    const handleFontAm = (e) => {
+    const handleFontAm = useCallback((e) => {
         lang('am')
         ls.set('language', 'am')
         setExpanded(false)
-    }
+    }, [lang])
 
-    const handleFontDe = (e) => {
+    const handleFontDe = useCallback((e) => {
         lang('de')
         ls.set('language', 'de')
         setExpanded(false)
-    }
+    }, [lang])
 
-    const handleFontEn = (e) => {
+    const handleFontEn = useCallback((e) => {
         lang('en')
         ls.set('language', 'en')
         setExpanded(false)
-    }
+    }, [lang])
 
-    const changeStyle = () => {
+    const changeStyle = useCallback(() => {
         if (window.scrollY >= 50) {
             setNavbar(true)
         } else {
             setNavbar(false)
         }
-    }
+    }, [])
 
     window.addEventListener('scroll', changeStyle);
 

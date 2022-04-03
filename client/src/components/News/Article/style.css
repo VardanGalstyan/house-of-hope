@@ -1,7 +1,8 @@
 .article {
   font-family: var(--font-montserrat);
+  max-width: 1200px;
   background-color: #fff;
-  margin: 0;
+  margin: 0, auto;
   padding: 10px 150px 20px 150px;
 }
 
@@ -13,31 +14,9 @@
 .article-header img {
   width: 100%;
   height: 500px;
-  object-fit: cover;
-}
-
-.article-header::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(61, 58, 55, 0.1550770308123254) 60%,
-    rgb(19, 20, 20) 100%
-  );
-  z-index: 1;
-}
-
-.article-header img {
-  width: 100%;
-  height: 500px;
   padding: 0;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: rgba(0, 0, 0, 0.788);
 }
 
 .article-body {
@@ -45,7 +24,7 @@
 }
 .article-body h1 {
   font-family: var(--font-braind);
-  font-size: 5vw;
+  font-size: 35px;
   font-weight: 700;
   color: var(--text-main);
 }

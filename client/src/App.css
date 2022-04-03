@@ -22,6 +22,15 @@
   --font-spectral: "Spectral SC", serif;
 }
 
+body {
+  font-family: var(--font-braind);
+  font-size: 1.2rem;
+  background-color: white;
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   margin: 0;
   padding: 0;

@@ -1,16 +1,17 @@
 .navbar-fixed-top {
-  position: absolute;
+  position: relative;
   width: 100%;
-  background-color: transparent;
+  background-color: rgba(32, 30, 30, 0.897);
   overflow: hidden;
   z-index: 3;
   top: 0;
   font-size: 20px;
   user-select: none;
+  padding: 0;
 }
 
 .navbar-fixed-top .container-md {
-  padding: 10px 120px 20px 120px;
+  padding: 5px 120px;
 }
 
 .navbar-static-top {
@@ -24,8 +25,8 @@
 }
 
 .navbar img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;

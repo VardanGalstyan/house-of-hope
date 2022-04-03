@@ -13,7 +13,6 @@ export const SingleProjectContext = createContext();
 
 function ProjectPost() {
 
-
     const { isAdmin } = useContext(adminContext);
     const { id } = useParams();
     const { language } = useContext(languageContext);
@@ -64,7 +63,7 @@ function ProjectPost() {
                     <Container fluid className='project-post' >
                         <div className='main-post'>
                             <div className='main-post-header'>
-                                <img src={project.cover && project.cover.url} alt="project-cover" />
+                                <img src={project?.cover?.url} alt="project-cover" />
                             </div>
                             <div className='main-post-body'>
                                 <h1>{am ? title_am : de ? title_de : en ? title_en : null}</h1>

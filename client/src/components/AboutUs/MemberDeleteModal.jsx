@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useCallback } from 'react'
 import { teamMemberContext } from './Team';
 import { Modal, Button } from 'react-bootstrap';
 import Error from '../Reusable/Error';
@@ -11,7 +11,7 @@ function MemberDeleteModal({ member, language, ...props }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleDelete = async () => {
+    const handleDelete = useCallback(async () => {
         try {
             setLoading(true);
             member.avatar && await fetch(`${process.env.REACT_APP_SERVER}/teams/${member._id}/delete-avatar`, { method: 'POST' })
@@ -27,13 +27,13 @@ function MemberDeleteModal({ member, language, ...props }) {
             setError(true);
             setLoading(false);
         }
-    }
+    }, [member, getTeam])
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setError(false);
         setLoading(false);
         props.onHide();
-    }
+    }, [props])
 
     return (
         <Modal {...props} size="sm" centered  >

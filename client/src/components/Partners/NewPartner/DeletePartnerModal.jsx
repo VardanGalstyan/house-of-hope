@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useCallback } from 'react'
 import { getPartnerContext } from '../Partners';
 import { Modal, Button } from 'react-bootstrap';
 import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../../News/content';
@@ -11,7 +11,7 @@ function DeletePartnerModal({ partner, language, ...props }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const handleDelete = async () => {
+    const handleDelete = useCallback(async () => {
         try {
             setLoading(true);
             partner.avatar && await fetch(`${process.env.REACT_APP_SERVER}/partners/${partner._id}/delete-avatar`, { method: 'POST' })
@@ -21,22 +21,21 @@ function DeletePartnerModal({ partner, language, ...props }) {
                 setLoading(false);
                 getPartners()
             } else {
-                console.log('error in delete partner')
                 setLoading(false);
                 setError(true);
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             setError(true);
             setLoading(false);
         }
-    }
+    }, [props])
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setError(false);
         setLoading(false);
         props.onHide();
-    }
+    }, [props])
 
     return (
         <Modal {...props} size="sm" centered>
