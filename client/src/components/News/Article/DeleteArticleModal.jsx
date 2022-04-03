@@ -24,12 +24,11 @@ function DeleteArticleModal({ article, ...props }) {
                 props.onHide()
                 navigate('/')
             } else {
-                console.log('error in delete Project')
                 setLoading(false);
                 setError(true);
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
             setError(true);
             setLoading(false);
         }

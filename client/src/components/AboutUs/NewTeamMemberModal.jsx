@@ -63,7 +63,6 @@ function NewTeamMemberModal({ member, ...props }) {
                     props.onHide()
                     getTeam()
                 } else {
-                    console.log('Image was not properly uploaded');
                     setLoading(false)
                     setError(true)
                 }
@@ -73,7 +72,6 @@ function NewTeamMemberModal({ member, ...props }) {
                 props.onHide()
                 getTeam()
             } else {
-                console.log('here');
                 setLoading(false)
                 setError(true)
             }

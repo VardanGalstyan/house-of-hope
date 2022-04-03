@@ -1,6 +1,6 @@
 import './style.css';
-import { useState, useContext, useEffect, createContext } from 'react';
-import { addNewsParagraphLanguage, addNewsTitleLanguage } from './content';
+import { useState, useContext, useEffect, createContext, useCallback } from 'react';
+import { addNewsTitleLanguage } from './content';
 import { languageContext, adminContext } from '../../App';
 import { Container } from 'react-bootstrap';
 import { IoCreateOutline } from 'react-icons/io5';
@@ -23,9 +23,7 @@ function News() {
     const [articles, setArticles] = useState([]);
     const [link, setLink] = useState('')
 
-    console.log(articles);
-
-    const fetchNews = async () => {
+    const fetchNews = useCallback(async () => {
         try {
             setLoading(true)
             const response = await fetch(!link ? `${process.env.REACT_APP_SERVER}/articles?sort=name,-date&limit=3` : link);
@@ -41,9 +39,9 @@ function News() {
         } catch (error) {
             setLoading(false)
             setError(true)
-            console.log(error);
+            console.error(error);
         }
-    }
+    }, [link])
 
     useEffect(() => {
         fetchNews()
@@ -60,7 +58,7 @@ function News() {
                         <ArticleModal show={modalShow} onHide={() => setModalShow(false)} />
                     </div>
                 }
-                <Headers title={addNewsTitleLanguage(language)} paragraph={addNewsParagraphLanguage(language)} />
+                <Headers title={addNewsTitleLanguage(language)} />
                 {error && <Error />}
                 <div className='news-body'>
                     {

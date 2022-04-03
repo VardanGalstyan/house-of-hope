@@ -2,55 +2,42 @@
   font-family: var(--font-montserrat);
   padding: 10px 150px 20px 150px;
   background-color: #fff;
-  margin: 0;
+  margin: 0, auto;
+  max-width: 1200px;
 }
 
 .main-post-header {
   position: relative;
   width: 100%;
-}
-
-.main-post-header::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(61, 58, 55, 0.1550770308123254) 80%,
-    rgb(19, 20, 20) 100%
-  );
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.788);
 }
 
 .main-post-header img {
   width: 100%;
-  height: 500px;
-  object-fit: cover;
+  max-height: 500px;
+  object-fit: contain;
   position: relative;
 }
 
 .main-post-body {
   padding: 40px;
   width: 100%;
+  text-align: justify;
+}
+
+.main-post-body h1 {
+  font-family: var(--font-braind);
+  font-size: 35px;
+  font-weight: 700;
+  padding: 0;
+  color: var(--text-main);
+  margin-bottom: 20px;
 }
 
 .main-post-body p {
   margin: 0 0 20px 0;
   font-size: 12px;
   color: #8c8c8c;
-}
-
-.main-post-body h1 {
-  font-family: var(--font-braind);
-  font-size: 5vw;
-  font-weight: 700;
-  padding: 0;
-  color: var(--text-main);
 }
 
 .main-post-body span {
@@ -90,8 +77,6 @@
   padding: 5px 0 15px 0;
   cursor: pointer;
 }
-
-
 
 @media screen and (max-width: 991px) {
   .project-post {

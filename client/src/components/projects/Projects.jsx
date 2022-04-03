@@ -1,9 +1,9 @@
 import './style.css';
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
 import { languageContext, adminContext } from '../../App';
 import { BsFillArrowRightSquareFill, BsArrowLeftSquareFill } from 'react-icons/bs';
-import { handleProjectHeaderLanguage, handleProjectParagraphLanguage } from './content';
+import { handleProjectHeaderLanguage } from './content';
 import { IoCreateOutline } from 'react-icons/io5';
 import { FiCircle } from 'react-icons/fi';
 import { FaCircle } from 'react-icons/fa';
@@ -27,7 +27,7 @@ function Projects() {
 
 
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         try {
             setLoading(true)
             const response = await fetch(`${process.env.REACT_APP_SERVER}/projects`)
@@ -38,15 +38,14 @@ function Projects() {
             } else {
                 setLoading(false)
                 setError(true)
-                console.log('error');
             }
         }
         catch (error) {
             setLoading(false)
             setError(true)
-            console.log(error);
+            console.error(error);
         }
-    }
+    }, [])
 
     useEffect(() => {
         fetchProjects()
@@ -54,8 +53,8 @@ function Projects() {
     }, []);
 
     const length = projects.length;
-    const nextSlide = () => setCurrent(current === length - 1 ? 0 : current + 1);
-    const prevSlide = () => setCurrent(current === 0 ? length - 1 : current - 1);
+    const nextSlide = useCallback(() => setCurrent(current === length - 1 ? 0 : current + 1), [current, length]);
+    const prevSlide = useCallback(() => setCurrent(current === 0 ? length - 1 : current - 1), [current, length]);
 
     return (
         <Container fluid className='projects'>
@@ -68,14 +67,16 @@ function Projects() {
                     </div>
                 }
                 <Headers
-                    title={handleProjectHeaderLanguage(language)}
-                    paragraph={handleProjectParagraphLanguage(language)} />
+                    title={handleProjectHeaderLanguage(language)} />
                 {error && <Error />}
                 <div className='project-container'>
                     {
-                        projects.map((project, index) => index === current && <div key={index} className={index === current ? 'slide-active' : 'slide'}>
-                            <ProjectCard project={project} />
-                        </div>)
+                        projects.map((project, index) =>
+                            index === current &&
+                            <div key={index}
+                                className={index === current ? 'slide-active' : 'slide'}>
+                                <ProjectCard project={project} />
+                            </div>)
                     }
                     <div className='project-switch'>
                         <span onClick={prevSlide}><BsArrowLeftSquareFill /></span>
@@ -86,7 +87,7 @@ function Projects() {
                     {
                         loading
                             ? <Watch height="30" width="30" color='grey' ariaLabel='loading' />
-                            : projects.map((title, index) =>
+                            : projects.map((index) =>
                                 <span key={index} onClick={() => setCurrent(index)}>
                                     {index !== current ? <FiCircle /> : <FaCircle />}
                                 </span>)

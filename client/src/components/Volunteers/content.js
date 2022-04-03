@@ -1,6 +1,6 @@
 export const addVolunteerTitle = (value) => {
     if (value === 'am') {
-        return "Դառնալ Կամավո"
+        return "Դառնալ Կամավոր"
     } else if (value === 'de') {
         return "Freiwilliger werden"
     } else if (value === 'en') {

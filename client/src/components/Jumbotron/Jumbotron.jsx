@@ -23,20 +23,17 @@ function Jumbotron() {
             {
                 armenian ?
                     <div className='about-us-body'>
-                        <h1>Հանուն բարեկեցության</h1>
-                        <p>Այստեղ ես ինչ որ տեքստ կլինի</p>
+                        <h1 className='mb-4'>Հանուն բարեկեցության</h1>
                         <button onClick={() => navigate('about-us')}>Մեր մասին</button>
                     </div> :
                     german ?
                         <div className='about-us-body'>
-                            <h1>We know how to make German</h1>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto officia animi illo, quos aliquid aperiam labore cumque quo consequuntur hic?</p>
+                            <h1 className='mb-4'>We know how to make German</h1>
                             <button onClick={() => navigate('about-us')}>Uber uns</button>
                         </div> :
                         english ?
                             <div className='about-us-body'>
-                                <h1>We know how to make Difference</h1>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto officia animi illo, quos aliquid aperiam labore cumque quo consequuntur hic?</p>
+                                <h1 className='mb-4'>We know how to make Difference</h1>
                                 <button onClick={() => navigate('about-us')}>About Us</button>
                             </div> : null
             }
