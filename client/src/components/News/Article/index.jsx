@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { RiDeleteBin6Fill, RiEdit2Fill } from 'react-icons/ri';
 import { languageContext } from '../../../App';
 import { adminContext } from '../../../App';
-import ArticleShare from './ArticleShare';
 import DeleteArticleModal from './DeleteArticleModal'
 import Error from '../../Reusable/Error';
 import Loader from '../../Reusable/Loader';
@@ -99,7 +98,6 @@ function Article() {
                                 <ArticleModal show={modalShow} onHide={() => setModalShow(false)} edited={article} />
                                 <DeleteArticleModal show={deleteModal} onHide={() => setDeleteModal(false)} article={article} />
                             </ArticleContext.Provider>
-                            <ArticleShare article={article} />
                         </Container >
             }
         </>
