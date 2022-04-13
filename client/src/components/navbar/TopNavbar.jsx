@@ -1,9 +1,9 @@
 import './navbar.css'
-import { useState, useCallback } from 'react';
 import ls from 'localstorage-slim'
+import { useState, useCallback } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
-import logo from '../../Images/logo6.png'
+
 
 
 ls.config.encrypt = true
@@ -71,9 +71,9 @@ function TopNavbar({ lang, language }) {
             expanded={expanded}
         >
             <Container fluid='md'>
-                <Navbar.Brand onClick={handleHomeClick}><img src={logo} alt="main-logo" /></Navbar.Brand>
+                <Navbar.Brand onClick={handleHomeClick}><img src='logo.png' alt="main-logo" /></Navbar.Brand>
                 <Navbar.Toggle onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Collapse>
                     <Nav className="me-auto">
                         <Nav.Link onClick={handlePartners}>
                             {english ? "We are Grateful" : german ? "Wir sind dankbar" : armenian ? "Մենք Երախտապարտ ենք" : null}

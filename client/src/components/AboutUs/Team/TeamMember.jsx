@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
-import { languageContext } from '../../App.js'
+import { languageContext } from '../../../App.js'
 import { Col } from 'react-bootstrap';
 import { MdModeEdit } from 'react-icons/md';
 import { TiUserDelete } from 'react-icons/ti';
-import NewTeamMemberModal from './NewTeamMemberModal.jsx';
-import MemberDeleteModal from './MemberDeleteModal.jsx';
+import NewTeamMemberModal from '../NewTeamMemberModal.jsx';
+import MemberDeleteModal from '../MemberDeleteModal.jsx';
 
 function TeamMember({ member, admin }) {
 

@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
-import { NewsContext } from '../News';
-import { ArticleContext } from './Article';
+import { NewsContext } from '..';
+import { ArticleContext } from '.';
 import { languageContext } from '../../../App';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { addNewsDateLanguage, addNewsTitleLanguage } from '../content';

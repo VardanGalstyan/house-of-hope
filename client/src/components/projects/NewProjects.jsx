@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { languageContext } from '../../App';
-import { ProjectContext } from './Projects';
+import { ProjectContext } from '.';
 import { SingleProjectContext } from './ProjectPost/ProjectPost';
 import { Modal, Form, Button } from 'react-bootstrap';
 import {

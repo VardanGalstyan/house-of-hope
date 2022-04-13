@@ -1,9 +1,9 @@
 import './style.css'
 import { useState, useEffect, useContext, createContext } from 'react';
-import { languageContext } from '../../../App';
 import { Container, Carousel } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { RiDeleteBin6Fill, RiEdit2Fill } from 'react-icons/ri';
+import { languageContext } from '../../../App';
 import { adminContext } from '../../../App';
 import ArticleShare from './ArticleShare';
 import DeleteArticleModal from './DeleteArticleModal'
@@ -46,11 +46,11 @@ function Article() {
             setError(true)
         }
     }
-
     useEffect(() => {
         fetchArticle();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
 
     const getDate = article.createdAt && article.createdAt.split('T')[0];
     const date = new Date(getDate);
@@ -99,7 +99,7 @@ function Article() {
                                 <ArticleModal show={modalShow} onHide={() => setModalShow(false)} edited={article} />
                                 <DeleteArticleModal show={deleteModal} onHide={() => setDeleteModal(false)} article={article} />
                             </ArticleContext.Provider>
-                            <ArticleShare />
+                            <ArticleShare article={article} />
                         </Container >
             }
         </>

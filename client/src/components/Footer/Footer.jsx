@@ -23,36 +23,38 @@ export default function Footer() {
 
     return (
         <Container fluid className='main-footer'>
-            <div className='footer-map'>
-                <GoogleMaps location={location} />
-            </div>
-            <div className='footer-contact-raw'>
-                <Col xs={12} sm={5} md={4} lg={3} className='footer-contact-item' >
-                    <div className='footer-contact-item-icon'><IoLocation /></div>
-                    {handleFooterAddressLanguage(language)}
-                </Col>
-                <Col xs={12} sm={5} md={3} lg={3} className='footer-contact-item' >
-                    <div className='footer-contact-item-icon'><IoCallOutline /></div>
-                    <div className='footer-contact-item-address'>
-                        <span>{handleFooterPhoneLanguage(language)}</span>
-                        <span>+374-10-242968</span>
-                    </div>
-                </Col>
-                <Col xs={12} sm={5} md={4} lg={3} className='footer-contact-item'>
-                    <div className='footer-contact-item-icon'><AiOutlineMail /></div>
-                    <div className='footer-contact-item-address'>
-                        <span>{handleFooterEmailLanguage(language)}</span>
-                        <span>something@something.com</span>
-                    </div>
-                </Col>
-                <Col xs={12} sm={5} md={3} lg={2} className='footer-contact-item-social'>
-                    <div><SiFacebook /></div>
-                    <div><SiInstagram /></div>
-                </Col>
-            </div>
-            <div className='footer-copyright-info'>
-                {handleFooterCopyrightLanguage(language, date)}
-            </div>
+            <Container>
+                <div className='footer-map'>
+                    <GoogleMaps location={location} />
+                </div>
+                <div className='footer-contact-raw'>
+                    <Col xs={12} sm={5} md={4} lg={3} className='footer-contact-item' >
+                        <div className='footer-contact-item-icon'><IoLocation /></div>
+                        {handleFooterAddressLanguage(language)}
+                    </Col>
+                    <Col xs={12} sm={5} md={3} lg={3} className='footer-contact-item' >
+                        <div className='footer-contact-item-icon'><IoCallOutline /></div>
+                        <div className='footer-contact-item-address'>
+                            <span>{handleFooterPhoneLanguage(language)}</span>
+                            <span>+374-10-242968</span>
+                        </div>
+                    </Col>
+                    <Col xs={12} sm={5} md={4} lg={3} className='footer-contact-item'>
+                        <div className='footer-contact-item-icon'><AiOutlineMail /></div>
+                        <div className='footer-contact-item-address'>
+                            <span>{handleFooterEmailLanguage(language)}</span>
+                            <span>something@something.com</span>
+                        </div>
+                    </Col>
+                    <Col xs={12} sm={5} md={3} lg={2} className='footer-contact-item-social'>
+                        <div><SiFacebook /></div>
+                        <div><SiInstagram /></div>
+                    </Col>
+                </div>
+                <div className='footer-copyright-info'>
+                    {handleFooterCopyrightLanguage(language, date)}
+                </div>
+            </Container>
         </Container >
     );
 }

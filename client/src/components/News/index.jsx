@@ -4,12 +4,12 @@ import { addNewsTitleLanguage } from './content';
 import { languageContext, adminContext } from '../../App';
 import { Container } from 'react-bootstrap';
 import { IoCreateOutline } from 'react-icons/io5';
-import { Watch } from 'react-loader-spinner';
 import NewsItem from './NewsItem';
 import Headers from '../Reusable/Headers';
 import ArticleModal from './Article/ArticleModal';
 import PaginateArticles from './Article/PaginateArticles';
 import Error from '../Reusable/Error';
+import PlaceHolder from './PlaceHolder';
 
 export const NewsContext = createContext();
 
@@ -62,11 +62,12 @@ function News() {
                 {error && <Error />}
                 <div className='news-body'>
                     {
-                        loading
-                            ? <Watch height="30" width="30" color='grey' ariaLabel='loading' />
-                            : articles.articles ? articles.articles.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1).map((news, index) => (
-                                <NewsItem news={news} key={index} language={language} />
-                            )) : null
+
+                        articles?.articles?.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1).map((news, index) => (
+                            !loading
+                                ? <NewsItem news={news} key={news._id} language={language} />
+                                : <PlaceHolder key={index} />
+                        ))
                     }
                 </div>
                 <PaginateArticles

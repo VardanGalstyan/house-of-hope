@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { getPartnerContext } from '../Partners.jsx';
+import { getPartnerContext } from '../index.jsx';
 import { languageContext } from '../../../App.js';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../../projects/content.js';

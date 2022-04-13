@@ -66,8 +66,7 @@ function Projects() {
                         <NewProjects show={modalShow} onHide={() => setModalShow(false)} />
                     </div>
                 }
-                <Headers
-                    title={handleProjectHeaderLanguage(language)} />
+                <Headers title={handleProjectHeaderLanguage(language)} />
                 {error && <Error />}
                 <div className='project-container'>
                     {
@@ -87,9 +86,9 @@ function Projects() {
                     {
                         loading
                             ? <Watch height="30" width="30" color='grey' ariaLabel='loading' />
-                            : projects.map((index) =>
-                                <span key={index} onClick={() => setCurrent(index)}>
-                                    {index !== current ? <FiCircle /> : <FaCircle />}
+                            : projects.map((_, i) =>
+                                <span key={i} onClick={() => setCurrent(i)}>
+                                    {i !== current ? <FiCircle /> : <FaCircle />}
                                 </span>)
                     }
                 </div>
