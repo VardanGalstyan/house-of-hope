@@ -1,4 +1,5 @@
-import React from 'react';
+import { useContext } from 'react';
+import { languageContext } from '../../../App';
 import {
     FacebookShareButton,
     FacebookMessengerShareButton,
@@ -8,15 +9,21 @@ import {
     WhatsappIcon
 } from "react-share";
 
-const shareUrl = 'www.saturday-game.com'
-const title = "Saturday Game"
+const shareUrl = window.location.href
 
-function ArticleShare() {
+function ArticleShare({ article }) {
+
+    const { language } = useContext(languageContext)
+    const am = language === 'am'
+    const en = language === 'en'
+    const de = language === 'de'
+
+    console.log(article);
     return (
         <div className='article-share'>
             <FacebookShareButton
                 url={shareUrl}
-                quote={title}
+                quote={am ? article?.title_am : en ? article?.title_en : de ? article?.title_de : ''}
             >
                 <FacebookIcon size={32} round />
             </FacebookShareButton>
@@ -28,7 +35,7 @@ function ArticleShare() {
             </FacebookMessengerShareButton>
             <WhatsappShareButton
                 url={shareUrl}
-                title={title}
+                title={am ? article?.title_am : en ? article?.title_en : de ? article?.title_de : ''}
                 separator=":: "
             >
                 <WhatsappIcon size={32} round />

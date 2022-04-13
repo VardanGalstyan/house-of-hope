@@ -1,13 +1,13 @@
 import { useContext, useState, useEffect, createContext } from 'react'
-import { languageContext, adminContext } from '../../App.js'
+import { languageContext, adminContext } from '../../../App.js'
 import { Container } from 'react-bootstrap';
 import { IoCreateOutline } from 'react-icons/io5';
-import { handleTeamTitleLanguage, handleTeamParagraphLanguage } from './content.js'
+import { handleTeamTitleLanguage, handleTeamParagraphLanguage } from '../content'
 import TeamMember from './TeamMember';
-import NewTeamMemberModal from './NewTeamMemberModal.jsx';
-import Loader from '../Reusable/Loader.jsx';
-import Error from '../Reusable/Error.jsx';
-import Headers from '../Reusable/Headers.jsx';
+import NewTeamMemberModal from '../NewTeamMemberModal';
+import Loader from '../../Reusable/Loader';
+import Error from '../../Reusable/Error';
+import Headers from '../../Reusable/Headers';
 
 export const teamMemberContext = createContext();
 

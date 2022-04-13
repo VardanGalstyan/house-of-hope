@@ -1,5 +1,5 @@
 import { useState, useContext, useCallback } from 'react'
-import { getPartnerContext } from '../Partners';
+import { getPartnerContext } from '..';
 import { Modal, Button } from 'react-bootstrap';
 import { handleModalDeleteLanguage, handleModalDeleteNoLanguage, handleModalDeleteYesLanguage } from '../../News/content';
 import Error from '../../Reusable/Error';

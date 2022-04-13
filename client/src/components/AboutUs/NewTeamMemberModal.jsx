@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
-import { teamMemberContext } from './Team.jsx';
-import { languageContext } from '../../App.js';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { teamMemberContext } from './Team';
+import { languageContext } from '../../App.js';
 import { handleTeamModalHeaderTitleLanguage } from './content.js'
 import { handleFormCloseLanguage, handleFormConfirmLanguage } from '../projects/content.js';
 import Error from '../Reusable/Error.jsx';

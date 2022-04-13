@@ -29,7 +29,7 @@ function Greeting() {
                     </div>
                 }
                 <div className={!greeting ? 'greeting-header' : 'header-active'}>
-                    <img src={require("../../../Images/mp.png")} alt="greeting-avatar" />
+                    <img src='mp.png' alt="greeting-avatar" />
                 </div>
                 <div className={!greeting ? 'greeting-body' : 'body-active'}>
                     {

@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { languageContext } from '../../App';
-import cover from '../../Images/homecover.jpeg'
 import './style.css'
 
 function Jumbotron() {
@@ -18,7 +17,7 @@ function Jumbotron() {
 
         <Container fluid className="jumbotron">
             <div className='main-cover'>
-                <img src={cover} alt="jumbotron-cover" />
+                <img src='homecover.jpeg' alt="jumbotron-cover" />
             </div>
             {
                 armenian ?

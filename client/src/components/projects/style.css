@@ -35,6 +35,7 @@
 
 .project-card-header img {
   width: 250px;
+  max-height: 180px;
   height: 100%;
   padding: 5px;
   background-color: rgb(243, 243, 243);

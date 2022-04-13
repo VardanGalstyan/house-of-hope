@@ -3,10 +3,10 @@ import ls from 'localstorage-slim'
 import { useState, createContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProjectPost from './components/projects/ProjectPost/ProjectPost';
-import Article from './components/News/Article/Article';
+import Article from './components/News/Article';
 import Home from './components/Home/Home';
-import Partners from './components/Partners/Partners';
-import AboutUs from './components/AboutUs/AboutUs';
+import Partners from './components/Partners';
+import AboutUs from './components/AboutUs';
 import Footer from './components/Footer/Footer';
 import TopNavbar from './components/navbar/TopNavbar';
 import Admin from './components/Admin/Admin';
