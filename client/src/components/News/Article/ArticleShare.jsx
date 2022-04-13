@@ -18,7 +18,6 @@ function ArticleShare({ article }) {
     const en = language === 'en'
     const de = language === 'de'
 
-    console.log(article);
     return (
         <div className='article-share'>
             <FacebookShareButton
